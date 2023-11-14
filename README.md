@@ -30,15 +30,15 @@ trustworthy. Now, with our application, you can see the reviews of the workers t
 
 <br>
 
-# User Stories
-- [User Stories](https://github.com/maraneagu/FixIT-IS/wiki/User-Stories)
-
-<br>
-
 # User Persona
 <div align="center">
     <img src="https://github.com/maraneagu/FixIT-MERN/assets/93272424/fd332bd6-76b5-40c0-af61-4a8c7390efa7" alt="image" width="600px">
 </div>
+
+<br>
+
+# User Stories
+- [User Stories](https://github.com/maraneagu/FixIT-IS/wiki/User-Stories)
 
 <br>
 
