@@ -35,6 +35,13 @@ trustworthy. Now, with our application, you can see the reviews of the workers t
 
 <br>
 
+# User Persona
+<div align="center">
+    <img src="https://github.com/maraneagu/FixIT-MERN/assets/93272424/fd332bd6-76b5-40c0-af61-4a8c7390efa7" alt="image" width="600px">
+</div>
+
+<br>
+
 # TechStack 
 1. React for the frontend
 2. MongoDB for the NoSql database
