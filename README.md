@@ -24,7 +24,7 @@ trustworthy. Now, with our application, you can see the reviews of the workers t
 - [Demo](https://youtu.be/qrWF7znqEJA)
 
 # User Stories
-- [User Stories](https://github.com/maraneagu/FixIT-MERN/wiki/User-Stories)
+- [User Stories](https://github.com/maraneagu/FixIT-IS/wiki/User-Stories)
 
 # TechStack 
 1. React for the frontend
