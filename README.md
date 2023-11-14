@@ -4,6 +4,8 @@
     <img src="https://github.com/maraneagu/FixIT-MERN/assets/93039914/9242e5d4-d2b0-4cbc-9400-487b64b6aeca" alt="image">
 </div>
 
+<br>
+
 # Product Vision
 
 
