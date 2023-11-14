@@ -61,6 +61,13 @@ trustworthy. Now, with our application, you can see the reviews of the workers t
 <br>
 <br>
 
+# Roadmap
+<div align="center">
+    <img src="https://github.com/maraneagu/FixIT-IS/assets/93272424/33073f6a-b95b-4e81-9a3c-3ca8177dc19d)" alt="image" width="500px">
+</div>
+
+<br>
+
 
 # Product Features & Functionalities
 
