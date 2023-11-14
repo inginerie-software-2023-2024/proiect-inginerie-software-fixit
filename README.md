@@ -20,11 +20,17 @@ trustworthy. Now, with our application, you can see the reviews of the workers t
 - [Mara Neagu](https://github.com/maraneagu)
 - [Vlad Talpiga](https://github.com/vladtalpiga)
 
+<br>
+
 # Demo
 - [Demo](https://youtu.be/qrWF7znqEJA)
 
+<br>
+
 # User Stories
 - [User Stories](https://github.com/maraneagu/FixIT-IS/wiki/User-Stories)
+
+<br>
 
 # TechStack 
 1. React for the frontend
@@ -34,6 +40,8 @@ trustworthy. Now, with our application, you can see the reviews of the workers t
 5. React Redux for managing states
 6. Bcrypt for the encryption of passwords
 7. Dropzone for uploading images.
+
+<br>
 
 # Diagrams  
 <div align="center">
