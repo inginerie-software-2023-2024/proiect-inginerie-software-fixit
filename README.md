@@ -59,7 +59,6 @@ trustworthy. Now, with our application, you can see the reviews of the workers t
 
 
 <br>
-<br>
 
 # Roadmap
 <div align="center">
