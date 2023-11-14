@@ -12,6 +12,7 @@ users can create an account and search for specific services that they need. Our
 can add friends. Why would we add that feature? Well, we've thought about it this way: first, when we want to hire someone that we do not know personally we ask a friend, if he/she knows somebody
 trustworthy. Now, with our application, you can see the reviews of the workers that have done projects for your friends, and see how your close ones reviewed them.
 
+<br>
 
 # Contributors
 - [David Bojneagu](https://github.com/DBojneagu)
