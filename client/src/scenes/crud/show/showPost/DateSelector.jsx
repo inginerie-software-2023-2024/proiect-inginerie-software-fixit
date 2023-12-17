@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   Box,
@@ -13,9 +13,10 @@ import {
   InputLabel,
   FormControl,
 } from "@mui/material";
+import { setDateAppointments } from "state"; // Import the actual action creator
 
-const DateSelector = ({ open, onClose, onSelectDate,postId }) => {
-  const token = useSelector((state) => state.token); // Get the authentication token from the Redux store
+const DateSelector = ({ open, onClose, onSelectDate, postId }) => {
+  const token = useSelector((state) => state.token);
   const [selectedDate, setSelectedDate] = useState(null);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -23,6 +24,30 @@ const DateSelector = ({ open, onClose, onSelectDate,postId }) => {
   const [description, setDescription] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
   const loggedInUserId = useSelector((state) => state.user._id);
+  const dispatch = useDispatch();
+  const [dateAppointments, setDateAppointmentsState] = useState([]); // Change this to null initially
+  
+  const getDateAppointments = async (date) => {
+    try {
+      const response = await fetch(`http://localhost:3001/appointments/${date}`, {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await response.json();
+      console.log(data);
+      setDateAppointmentsState(data);
+      dispatch(setDateAppointments({dateAppointments : data}))
+    } catch (error) {
+      console.error("Error fetching appointments:", error);
+    }
+  };
+
+  // Function to check if a time slot is available
+  const isTimeSlotAvailable = (time) => {
+    // Check if the time slot is in the existing appointments
+    return !dateAppointments?.some((appointment) => appointment.time === time); // Check for existence
+  };
+
   const handleDateChange = (event) => {
     setSelectedDate(event.target.value);
   };
@@ -49,8 +74,8 @@ const DateSelector = ({ open, onClose, onSelectDate,postId }) => {
 
   const handleSelectDate = async () => {
     const appointmentData = {
-      userId: loggedInUserId, // replace with the actual user ID
-      postId: postId, // replace with the actual post ID
+      userId: loggedInUserId,
+      postId: postId,
       date: selectedDate,
       firstName,
       lastName,
@@ -59,32 +84,40 @@ const DateSelector = ({ open, onClose, onSelectDate,postId }) => {
       time: selectedTime,
     };
     console.log(appointmentData);
+
     try {
       const response = await fetch("http://localhost:3001/appointments/create", {
         method: "POST",
         headers: {
-            Authorization: `Bearer ${token}`,
-             "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(appointmentData),
       });
 
       if (response.ok) {
-        // The appointment was successfully created
         console.log("Appointment created successfully!");
+        window.location.reload();
       } else {
-        // Handle errors here
         console.error("Failed to create appointment");
       }
     } catch (error) {
       console.error("Error creating appointment:", error);
     }
 
-    // Close the dialog after handling the request
     onSelectDate(appointmentData);
     onClose();
   };
 
+  useEffect(() => {
+    if (selectedDate) {
+        
+      getDateAppointments(selectedDate);
+      console.log(dateAppointments);
+
+    }
+  }, [selectedDate]);
+  
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="xs">
       <DialogTitle>Make An Appointment</DialogTitle>
@@ -108,11 +141,11 @@ const DateSelector = ({ open, onClose, onSelectDate,postId }) => {
               value={selectedTime}
               onChange={handleTimeChange}
             >
-              <MenuItem value="09:00">9:00 AM</MenuItem>
-              <MenuItem value="11:00">11:00 AM</MenuItem>
-              <MenuItem value="13:00">1:00 PM</MenuItem>
-              <MenuItem value="15:00">3:00 PM</MenuItem>
-              <MenuItem value="17:00">5:00 PM</MenuItem>
+              {["09:00", "11:00", "13:00", "15:00", "17:00"].map((time) => (
+                <MenuItem key={time} value={time} disabled={!isTimeSlotAvailable(time)}>
+                    {time}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
           <TextField

@@ -7,6 +7,7 @@ export const createAppointment = async (req, res) => {
   try {
     // Extract appointment data from the request body and user ID from request params
     const {userId,postId, firstName, lastName, location, description, date, time } = req.body;
+    
     const user = await User.findById(userId);
     const post = await Post.findById(postId);
 
@@ -33,3 +34,19 @@ export const createAppointment = async (req, res) => {
     res.status(409).json({ message: err.message });
   }
 };
+
+export const getDateAppointments = async (req, res) => {
+    try {
+      // Extract the user ID from the request params
+      const { date } = req.params;
+  
+      // Retrieve all posts associated with the user ID
+      const appointment = await Appointment.find({ date });
+  
+      // Respond with the list of user posts
+      res.status(200).json(appointment);
+    } catch (err) {
+      // Handle any errors that occur during retrieval of user posts
+      res.status(404).json({ message: err.message });
+    }
+  };
