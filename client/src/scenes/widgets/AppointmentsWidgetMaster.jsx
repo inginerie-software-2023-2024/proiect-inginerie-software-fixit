@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setAppointments } from "state";
 import { useNavigate } from "react-router-dom";
-import AppointmentWidget from "./AppointmentWidget";
+import AppointmentWidgetMaster from "./AppointmentWidgetMaster";
 
 const AppointmentsWidget = ({ userId }) => {
   // Redux dispatch to update the friends list in the store
@@ -43,14 +43,14 @@ const AppointmentsWidget = ({ userId }) => {
   const getAppointments = async () => {
     console.log(userId);
     const response = await fetch(
-      `http://localhost:3001/users/${userId}/appointments`,
+      `http://localhost:3001/users/${userId}/appointmentsmaster`,
       {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
       }
     );
     const data = await response.json();
-    console.log(data);
+   
     // Update the friends list in the Redux store
     setAppointmentsState(data);
     dispatch(setAppointments({ appointments: data }));
@@ -76,7 +76,7 @@ const AppointmentsWidget = ({ userId }) => {
       {/* Render the filtered appointments */}
       <Box display="flex" flexDirection="column" gap="1.5rem" mb="0.5rem">
         {filteredAppointments.slice(0, showMore ? filteredAppointments.length : 3).map((appointment) => (
-          <AppointmentWidget
+          <AppointmentWidgetMaster
             key={appointment._id}
             userId={appointment.userId}
             appointmentId={appointment._id}

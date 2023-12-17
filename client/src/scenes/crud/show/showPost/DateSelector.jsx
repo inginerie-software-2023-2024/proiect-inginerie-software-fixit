@@ -85,6 +85,7 @@ const DateSelector = ({ open, onClose, onSelectDate, postId }) => {
       location: address,
       description,
       time: selectedTime,
+      isAccepted: false,
     };
 
     try {
