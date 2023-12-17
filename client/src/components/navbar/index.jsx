@@ -20,6 +20,7 @@ import {
   Close,
 } from "@mui/icons-material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import ReviewsIcon from '@mui/icons-material/Reviews';
 import { useDispatch, useSelector } from "react-redux";
 import { setMode, setLogout } from "state";
 import { useNavigate } from "react-router-dom";
@@ -93,6 +94,8 @@ const Navbar = () => {
               }}
             />
           )}
+
+          
           <IconButton
           onClick={() => navigate("/tips")}
           >
