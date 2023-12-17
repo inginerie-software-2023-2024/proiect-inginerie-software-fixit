@@ -52,6 +52,11 @@ export const getPostReviews = async (req, res) => {
   }
 };
 
+/* GET FRIEND REVIEWS*/
+export const friendReviews = async (req, res) => {
+  
+};
+
 /* DELETE */
 export const deleteReview = async (req, res) => {
   const { reviewId } = req.params;

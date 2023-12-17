@@ -6,6 +6,7 @@ import {
 } from "@mui/icons-material";
 import EditIcon from "@mui/icons-material/Edit";
 import ClassIcon from "@mui/icons-material/Class";
+import ReviewsIcon from '@mui/icons-material/Reviews';
 import {
   Box,
   Divider,
@@ -24,7 +25,7 @@ import {
 import FlexBetween from "components/FlexBetween";
 import Friend from "components/Friend";
 import WidgetWrapper from "components/WidgetWrapper";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPost } from "state";
 import { setPosts } from "state";
@@ -50,6 +51,9 @@ const PostWidget = ({
   const [reviewRating, setReviewRating] = useState(0); // State for review rating
   const [reviewDescription, setReviewDescription] = useState(""); // State for review description
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false); // State for delete confirmation dialog
+
+  const [reviewAverage, setReviewAverage] = useState(0);
+  const [noReviews, setNoReviews] = useState(0);
 
   // Utility hooks
   const { palette } = useTheme();
@@ -82,6 +86,31 @@ const PostWidget = ({
     });
     const updatedPost = await response.json();
     dispatch(setPost({ post: updatedPost }));
+  };
+
+
+  const getPostReviews = async () => {
+    const response = await fetch(
+      `http://localhost:3001/reviews/${postId}/postReviews`,
+      {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    const data = await response.json();
+    console.log("review-uri la postare: ", data);
+    var stars = 0;
+    for (var i in data)
+    { var obj = data[i];
+      stars += parseInt(obj["stars"]);
+    }
+
+    var average = (stars / data.length).toFixed(1);
+
+    setReviewAverage(average);
+    setNoReviews(data.length);
+
+    console.log("medie: ", average);
   };
 
   const handleReviewDialogOpen = () => {
@@ -162,6 +191,11 @@ const PostWidget = ({
     }
   };
 
+   useEffect(() => {
+    // Fetch the post reviews when the component mounts
+    getPostReviews();
+  }, []);
+
   return (
     <WidgetWrapper
       m="2rem 0"
@@ -169,22 +203,68 @@ const PostWidget = ({
       mr={isNonMobileScreens ? "15px" : undefined}
     >
       {/* Display the friend information */}
-      <Friend
-        friendId={postUserId}
-        name={name}
-        subtitle={location}
-        userPicturePath={userPicturePath}
-      />
+    <FlexBetween gap="1rem" sx={{ width: "100%" }}>
+    {/* Display the like button */}
+        <FlexBetween gap="0.3rem">
+          <Friend
+            friendId={postUserId}
+            name={name}
+            subtitle={location}
+            userPicturePath={userPicturePath}
+          />
+        </FlexBetween>
+
+        <FlexBetween gap="0.7rem">
+          <Box 
+          bgcolor={primary}
+          borderRadius = "5px"
+          sx={{height:"25px", width:"45px", paddingRight:"12px", paddingTop:"2.5px"}}>
+            <Typography
+            color={main}
+            variant="h7"
+            fontWeight="bold"
+          sx={{ display: "flex", justifyContent: "flex-end", width: "100%", wordWrap: "break-word", alignItems: "center" }}
+          >
+        {reviewAverage}
+          </Typography>
+          </Box>
+
+        </FlexBetween>
+
+    </FlexBetween>
+
 
       {/* Display the post title */}
-      <Typography
-        color={main}
-        variant="h5"
-        fontWeight="500"
-        sx={{ mt: "1rem", width: "100%", wordWrap: "break-word" }}
-      >
-        {title}
-      </Typography>
+
+      <FlexBetween gap="1rem" sx={{ width: "100%" }}>
+        <FlexBetween gap="0.3rem">
+          <Typography
+            color={main}
+            variant="h5"
+            fontWeight="500"
+            sx={{ mt: "1rem", width: "100%", wordWrap: "break-word" }}
+          >
+            {title}
+          </Typography>
+        </FlexBetween>
+
+        <FlexBetween gap="0.3rem" sx = {{cursor: "pointer"}} onClick={() => {
+            navigate(`/show/${postId}`)
+            navigate(0)}}>
+            <ReviewsIcon>
+            </ReviewsIcon>
+            <Typography
+              color={main}
+              variant="h6"
+              fontWeight="300"
+              sx={{ display: "flex", justifyContent: "flex-end", width: "100%", wordWrap: "break-word", alignItems: "center" }}
+              >
+              {noReviews} reviews
+              </Typography>
+          
+        </FlexBetween>
+      </FlexBetween>
+      
 
       {/* Display the post category */}
       <Typography
