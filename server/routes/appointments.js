@@ -9,6 +9,8 @@ const router = express.Router();
 
 /* CREATE */
 router.post("/create", verifyToken, createAppointment);
+
+/* GET */
 router.get("/:date", verifyToken, getDateAppointments);
 
 /* DELETE */

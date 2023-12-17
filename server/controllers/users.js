@@ -1,5 +1,6 @@
 import User from "../models/User.js";
 import Post from "../models/Post.js";
+import Appointment from "../models/Appointment.js";
 
 /* READ */
 export const getUser = async (req, res) => {
@@ -13,6 +14,23 @@ export const getUser = async (req, res) => {
     res.status(200).json(user);
   } catch (err) {
     // Handle any errors that occur during user retrieval
+    res.status(404).json({ message: err.message });
+  }
+};
+
+export const getUserAppointments = async (req, res) => {
+  try {
+    // Extract the user ID from the request params
+    const { userId } = req.params;
+
+    // Retrieve all posts associated with the user ID
+    const appointments = await Appointment.find({ userId });
+
+
+    // Respond with the list of user posts
+    res.status(200).json(appointments);
+  } catch (err) {
+    // Handle any errors that occur during retrieval of user posts
     res.status(404).json({ message: err.message });
   }
 };

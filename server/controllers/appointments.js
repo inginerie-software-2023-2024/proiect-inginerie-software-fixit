@@ -11,7 +11,6 @@ export const createAppointment = async (req, res) => {
     const user = await User.findById(userId);
     const post = await Post.findById(postId);
 
-
     // Create a new appointment instance with user and appointment data
     const newAppointment = new Appointment({
       userId: user._id,
@@ -37,16 +36,16 @@ export const createAppointment = async (req, res) => {
 
 export const getDateAppointments = async (req, res) => {
     try {
-      // Extract the user ID from the request params
+      // Extract the date from the request params
       const { date } = req.params;
   
-      // Retrieve all posts associated with the user ID
+      // Retrieve all appointments associated with the date
       const appointment = await Appointment.find({ date });
   
-      // Respond with the list of user posts
+      // Respond with the list of appointments
       res.status(200).json(appointment);
     } catch (err) {
-      // Handle any errors that occur during retrieval of user posts
+      // Handle any errors that occur during retrieval of appointments
       res.status(404).json({ message: err.message });
     }
   };

@@ -326,19 +326,25 @@ const handleSelectDate = (date) => {
                   </FlexBetween>
                 )}
               </FlexBetween>
-                
+
               {/* Button to open the date picker */}
+              {user.isClient === true && ( 
               <IconButton onClick={handleOpenDatePicker} variant="contained">
                 <EventIcon />
               </IconButton>
-              
+              )}
+
               {/* Render the DateSelector component */}
+
+              {user.isClient === true && (
               <DateSelector
                 open={isDatePickerOpen}
                 onClose={handleCloseDatePicker}
                 onSelectDate={handleSelectDate}
                 postId={postId}
               />
+              )}
+              
               {/* Edit post option available for the post owner */}
               {isProfileUser && (
                 <IconButton

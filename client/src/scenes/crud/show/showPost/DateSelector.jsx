@@ -17,15 +17,18 @@ import { setDateAppointments } from "state"; // Import the actual action creator
 
 const DateSelector = ({ open, onClose, onSelectDate, postId }) => {
   const token = useSelector((state) => state.token);
-  const [selectedDate, setSelectedDate] = useState(null);
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [address, setAddress] = useState("");
   const [description, setDescription] = useState("");
+  const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState("");
+
+  const [dateAppointments, setDateAppointmentsState] = useState([]); // Change this to null initially
+
   const loggedInUserId = useSelector((state) => state.user._id);
   const dispatch = useDispatch();
-  const [dateAppointments, setDateAppointmentsState] = useState([]); // Change this to null initially
   
   const getDateAppointments = async (date) => {
     try {
@@ -34,10 +37,10 @@ const DateSelector = ({ open, onClose, onSelectDate, postId }) => {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await response.json();
-      console.log(data);
       setDateAppointmentsState(data);
       dispatch(setDateAppointments({dateAppointments : data}))
-    } catch (error) {
+    } 
+    catch (error) {
       console.error("Error fetching appointments:", error);
     }
   };
@@ -83,7 +86,6 @@ const DateSelector = ({ open, onClose, onSelectDate, postId }) => {
       description,
       time: selectedTime,
     };
-    console.log(appointmentData);
 
     try {
       const response = await fetch("http://localhost:3001/appointments/create", {
@@ -96,11 +98,8 @@ const DateSelector = ({ open, onClose, onSelectDate, postId }) => {
       });
 
       if (response.ok) {
-        console.log("Appointment created successfully!");
         window.location.reload();
-      } else {
-        console.error("Failed to create appointment");
-      }
+      } 
     } catch (error) {
       console.error("Error creating appointment:", error);
     }
@@ -121,6 +120,7 @@ const DateSelector = ({ open, onClose, onSelectDate, postId }) => {
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="xs">
       <DialogTitle>Make An Appointment</DialogTitle>
+      
       <DialogContent>
         <Box display="flex" flexDirection="column" gap={2} paddingTop={2}>
           <TextField
@@ -133,6 +133,7 @@ const DateSelector = ({ open, onClose, onSelectDate, postId }) => {
               shrink: true,
             }}
           />
+
           <FormControl fullWidth>
             <InputLabel id="time-select-label">Select Time</InputLabel>
             <Select
@@ -148,24 +149,28 @@ const DateSelector = ({ open, onClose, onSelectDate, postId }) => {
               ))}
             </Select>
           </FormControl>
+
           <TextField
             fullWidth
             label="First Name"
             value={firstName}
             onChange={handleFirstNameChange}
           />
+
           <TextField
             fullWidth
             label="Last Name"
             value={lastName}
             onChange={handleLastNameChange}
           />
+
           <TextField
             fullWidth
             label="Address"
             value={address}
             onChange={handleAddressChange}
           />
+
           <TextField
             fullWidth
             label="Description"
@@ -176,12 +181,14 @@ const DateSelector = ({ open, onClose, onSelectDate, postId }) => {
           />
         </Box>
       </DialogContent>
+
       <DialogActions>
         <Button onClick={onClose}>Cancel</Button>
         <Button onClick={handleSelectDate} variant="contained">
           Select
         </Button>
       </DialogActions>
+      
     </Dialog>
   );
 };

@@ -9,6 +9,7 @@ import FriendListWidgetProfile from "scenes/widgets/friendListWidgets/FriendList
 import PostsWidget from "scenes/widgets/postWidgets/PostsWidget";
 import UserWidget from "scenes/widgets/UserWidget";
 import TipsWidget from "scenes/widgets/tipWidgets/TipsWidget";
+import AppointmentsWidget from "scenes/widgets/AppointmentsWidget";
 
 const ProfilePage = () => {
   // State to store the user data
@@ -37,11 +38,9 @@ const ProfilePage = () => {
 
   const [posts, setPostsState] = useState([]);
   const hasPosts = posts.length > 0;
-  console.log(posts);
 
   const [tips, setTipsState] = useState([]);
   const hasTips = tips.length > 0;
-  console.log(tips);
 
   // Function to fetch user data from the server
   const getUser = async () => {
@@ -82,7 +81,6 @@ const ProfilePage = () => {
         }
       );
       const data = await response.json();
-      console.log(data);
       const reversedData = data.reverse(); // Sort the data in reverse order
       dispatch(setTips({ tips: reversedData }));
       setTipsState(reversedData);
@@ -121,6 +119,11 @@ const ProfilePage = () => {
             <Box m="2rem 0" />
             {/* Render the friend list widget component */}
             <FriendListWidgetProfile userId={userId} />
+
+            <Box m="2rem 0" />
+            {/* Render the friend list widget component */}
+            {isProfileUser &&
+            <AppointmentsWidget userId={userId} />}
 
             {hasTips && (
               <Box widht="100%">
@@ -173,6 +176,11 @@ const ProfilePage = () => {
             {/* Render the friend list widget component */}
             <FriendListWidgetProfile userId={userId} />
 
+            <Box m="2rem 0" />
+            {/* Render the friend list widget component */}
+            {isProfileUser &&
+            <AppointmentsWidget userId={userId} />}
+
             <Typography color={main} variant="h5" align="center" style={{ marginTop: "3rem", marginBottom: "3rem", fontSize: "1.2rem", fontWeight: "bold" }}>
               Recommendations
             </Typography>
@@ -211,6 +219,11 @@ const ProfilePage = () => {
                 {/* Render the friend list widget component */}
 
                 <FriendListWidgetProfile userId={userId} />
+
+                <Box m="2rem 0" />
+                {/* Render the friend list widget component */}
+                {isProfileUser &&
+                  <AppointmentsWidget userId={userId} />}
               </Box>
           </Box>
       )}
