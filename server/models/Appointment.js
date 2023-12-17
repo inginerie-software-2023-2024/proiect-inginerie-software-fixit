@@ -30,6 +30,10 @@ const appointmentSchema = mongoose.Schema(
         type: Date,
       required: true,
     },
+    time:{
+      type: String,
+      required: true,
+    }
     //userPicturePath: String,
   },
   { timestamps: true }
