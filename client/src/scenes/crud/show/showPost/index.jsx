@@ -6,6 +6,9 @@ import {
 } from "@mui/icons-material";
 import EditIcon from "@mui/icons-material/Edit";
 import ClassIcon from "@mui/icons-material/Class";
+import DateSelector from "./DateSelector"; 
+
+import { CalendarPicker } from "@mui/lab";
 import {
   Box,
   useMediaQuery,
@@ -35,6 +38,7 @@ import { setReviews } from "state";
 
 // Define the ShowPost component
 const ShowPost = () => {
+  
   const { postId } = useParams(); // Get the postId from the URL parameters
 
   const currentPost = useSelector((state) =>
@@ -68,6 +72,25 @@ const ShowPost = () => {
   const allReviews = useSelector((state) => state.reviews);
   const [reviews, setReviewsState] = useState(allReviews);
   const hasReviews = reviews.length > 0;
+// State variable for date selection
+const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+const [selectedDate, setSelectedDate] = useState(null);
+
+// Function to handle opening the date picker
+const handleOpenDatePicker = () => {
+  setIsDatePickerOpen(true);
+};
+
+// Function to handle closing the date picker
+const handleCloseDatePicker = () => {
+  setIsDatePickerOpen(false);
+};
+
+// Function to handle selecting a date
+const handleSelectDate = (date) => {
+  setSelectedDate(date);
+};
+
 
   // Function to fetch the post from the server
   const getPost = async () => {
@@ -333,7 +356,17 @@ const ShowPost = () => {
       </Box>
   
       {/* The following code is responsible for rendering the add review dialog */}
-  
+  {/* Button to open the date picker */}
+  <Button onClick={handleOpenDatePicker} variant="contained">
+        Select Date
+      </Button>
+
+      {/* Render the DateSelector component */}
+      <DateSelector
+        open={isDatePickerOpen}
+        onClose={handleCloseDatePicker}
+        onSelectDate={handleSelectDate}
+      />
       <Dialog
         open={isReviewDialogOpen}
         onClose={handleReviewDialogClose}
@@ -378,6 +411,8 @@ const ShowPost = () => {
           </Button>
         </DialogActions>
       </Dialog>
+
+
     </Box>
   );  
 };
