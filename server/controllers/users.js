@@ -25,12 +25,34 @@ export const getUserAppointments = async (req, res) => {
 
     // Retrieve all posts associated with the user ID
     const appointments = await Appointment.find({ userId });
-
+    console.log(appointments);
 
     // Respond with the list of user posts
     res.status(200).json(appointments);
   } catch (err) {
     // Handle any errors that occur during retrieval of user posts
+    res.status(404).json({ message: err.message });
+  }
+};
+export const getUserAppointmentsMaster = async (req, res) => {
+  try {
+    // Extract the user ID from the request params
+    const { userId } = req.params;
+
+    // Retrieve all posts associated with the user ID
+    const posts = await Post.find({ userId });
+
+    // Extract postIds from user's posts
+    const postIds = posts.map(post => post._id);
+
+    // Retrieve all appointments associated with the user's posts
+    const appointments = await Appointment.find({ postId: { $in: postIds } });
+    console.log(appointments);
+
+    // Respond with the list of user appointments
+    res.status(200).json(appointments);
+  } catch (err) {
+    // Handle any errors that occur during retrieval of user appointments
     res.status(404).json({ message: err.message });
   }
 };

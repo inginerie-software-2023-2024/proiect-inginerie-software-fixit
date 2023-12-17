@@ -1,7 +1,9 @@
 import express from "express";
 import {
     createAppointment,
-    getDateAppointments
+    deleteAppointment,
+    getDateAppointments,
+    updateAppointmentStatus
 } from "../controllers/appointments.js";
 import { verifyToken } from "../middleware/auth.js";
 
@@ -12,8 +14,9 @@ router.post("/create", verifyToken, createAppointment);
 
 /* GET */
 router.get("/:date", verifyToken, getDateAppointments);
+router.put("/status", verifyToken, updateAppointmentStatus);
 
 /* DELETE */
-//router.delete("/:reviewId", verifyToken, deleteReview);
+router.delete("/:appointmentId", verifyToken, deleteAppointment);
 
 export default router;

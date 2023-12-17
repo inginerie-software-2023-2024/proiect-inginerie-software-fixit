@@ -29,9 +29,9 @@ import {
   import FriendOnPost from "components/FriendOnPost";
   import { setAppointments } from "state";
   
-  const AppointmentWidget = ({
+  const AppointmentWidgetMaster = ({
     appointmentId,
-
+    userId,
     postId,
     description,
     location,
@@ -47,8 +47,12 @@ import {
     const { palette } = useTheme();
     const main = palette.neutral.main;
   
+    
+
+    const [acceptError, setAcceptError] = useState(null);
+    const [refuseError, setRefuseError] = useState(null);
     // Local state and variable declarations
-    const userId = null;
+
     const [user, setUser] = useState({});
     const loggedInUserId = useSelector((state) => state.user._id);
   
@@ -67,7 +71,7 @@ import {
     const handleDeleteConfirmationClose = () => {
       setDeleteConfirmationOpen(false);
     };
-  
+
     // Delete the review
     const deleteAppointment = async () => {
       const response = await fetch(`http://localhost:3001/appointments/${appointmentId}`, {
@@ -93,7 +97,7 @@ import {
     // Fetch the user data associated with the review
     const getUser = async () => {
       try {
-        const response = await fetch(`http://localhost:3001/posts/${postId}/user`, {
+        const response = await fetch(`http://localhost:3001/users/${userId}`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -102,7 +106,7 @@ import {
   
         if (response.ok) {
           const data = await response.json();
-          
+          //userId = data._id;
           setUser(data);
         } else {
           throw new Error("Error fetching user data");
@@ -112,10 +116,75 @@ import {
       }
     };
   
+    const handleAcceptAppointment = async () => {
+        try {
+          const response = await fetch(`http://localhost:3001/appointments/status`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              appointmentId,
+              isAccepted: true,
+              isRefused: false,
+            }),
+          });
+    
+          if (response.ok) {
+            // Update the state to reflect the new status
+            // setAcceptError(null); // Clear any previous errors
+            // setIsAccepted(true);
+            // setIsRefused(false);
+            window.location.reload();
+          } else {
+            // Handle error
+            const errorData = await response.json();
+            setAcceptError(errorData.message); // Set an error message
+          }
+        } catch (error) {
+          console.error("Error updating appointment status:", error);
+          setAcceptError("An error occurred while updating the status.");
+        }
+      };
+    
+      const handleRefuseAppointment = async () => {
+        try {
+          const response = await fetch(`http://localhost:3001/appointments/status`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              appointmentId,
+              isAccepted: false,
+              isRefused: true,
+            }),
+          });
+    
+          if (response.ok) {
+            // Update the state to reflect the new status
+            // setRefuseError(null); // Clear any previous errors
+            // setIsAccepted(false);
+            // setIsRefused(true);
+            window.location.reload();
+          } else {
+            // Handle error
+            const errorData = await response.json();
+            setRefuseError(errorData.message); // Set an error message
+          }
+        } catch (error) {
+          console.error("Error updating appointment status:", error);
+          setRefuseError("An error occurred while updating the status.");
+        }
+      };
     // Fetch the user data when the component mounts or when userId or token changes
     useEffect(() => {
       getUser();
       console.log(appointmentId);
+      console.log(isAccepted);
+      console.log(isRefused);
     }, []);
   
     return (
@@ -130,17 +199,26 @@ import {
             userPicturePath={user.picturePath}
           />
           {/* Conditionally render the checkmark or pending icon */}
-          {isAccepted && 
-            <CheckCircle sx={{ color: 'green', fontSize: 32 }} />}
-          {!isAccepted && !isRefused &&
-            <HourglassEmpty sx={{ color: 'orange', fontSize: 32 }} />}
-         
+          {!isAccepted && !isRefused && (
+            <>
+              <Button onClick={handleAcceptAppointment} sx={{ color: 'green' }}>
+                <CheckCircle sx={{ fontSize: 32 }} />
+              </Button>
+              <Button onClick={handleRefuseAppointment} sx={{ color: 'red' }}>
+                <Cancel sx={{ fontSize: 32 }} />
+              </Button>
+            </>
+          )}
+          {isAccepted && (
+            <CheckCircle sx={{ color: 'green', fontSize: 32 }} />
+          )}
           {isRefused && (
             <Cancel sx={{ color: 'red', fontSize: 32 }} />
           )}
         </FlexBetween>
         <FlexBetween mt="1rem" sx={{ flexDirection: "column", lineHeight: "1.5", wordWrap: "break-word" }}>
           {/* Render the appointment details */}
+          
           <Typography color={main} marginBottom="5px" sx={{ mt: "1rem", mb: "1rem", width: "100%", wordWrap: "break-word" }}>
             Date: {formattedDate}
           </Typography>
@@ -189,5 +267,5 @@ import {
     );
   };
   
-  export default AppointmentWidget;
+  export default AppointmentWidgetMaster;
   
