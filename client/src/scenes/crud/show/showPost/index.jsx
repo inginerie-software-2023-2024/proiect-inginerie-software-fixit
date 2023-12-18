@@ -37,7 +37,6 @@ import { setReviews } from "state";
 
 // Define the ShowPost component
 const ShowPost = () => {
-  
   const { postId } = useParams(); // Get the postId from the URL parameters
 
   const currentPost = useSelector((state) =>
@@ -71,25 +70,25 @@ const ShowPost = () => {
   const allReviews = useSelector((state) => state.reviews);
   const [reviews, setReviewsState] = useState(allReviews);
   const hasReviews = reviews.length > 0;
-// State variable for date selection
-const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
-const [selectedDate, setSelectedDate] = useState(null);
 
-// Function to handle opening the date picker
-const handleOpenDatePicker = () => {
-  setIsDatePickerOpen(true);
-};
+  // State variable for date selection
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(null);
 
-// Function to handle closing the date picker
-const handleCloseDatePicker = () => {
-  setIsDatePickerOpen(false);
-};
+  // Function to handle opening the date picker
+  const handleOpenDatePicker = () => {
+    setIsDatePickerOpen(true);
+  };
 
-// Function to handle selecting a date
-const handleSelectDate = (date) => {
-  setSelectedDate(date);
-};
+  // Function to handle closing the date picker
+  const handleCloseDatePicker = () => {
+    setIsDatePickerOpen(false);
+  };
 
+  // Function to handle selecting a date
+  const handleSelectDate = (date) => {
+    setSelectedDate(date);
+  };
 
   // Function to fetch the post from the server
   const getPost = async () => {
