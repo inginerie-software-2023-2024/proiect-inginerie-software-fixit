@@ -188,7 +188,6 @@ import {
   
     return (
       <Box >
-        {/* Your existing code */}
         <WidgetWrapper sx={{ backgroundColor: '#f0f0f0' }} m="2rem 0" ml={isNonMobileScreens ? "15px" : undefined} mr={isNonMobileScreens ? "15px" : undefined }>
         <FlexBetween>
           <FriendOnPost
@@ -208,7 +207,6 @@ import {
         </FlexBetween>
 
         <FlexBetween mt="2rem" sx={{ flexDirection: "column", wordWrap: "break-word" }}>
-          {/* Render the appointment details */}
           <Typography color={icon} marginBottom="5px" sx={{ mt: "0.5rem", wordWrap: "break-word", display: "flex", alignItems: 'center' }}>
             <Icon component={Event} sx={{ mr:"0.5rem" }}/> {formattedDate}
             <Icon component={AccessTime} sx={{ ml: "1.1rem", mr:"0.4rem" }}/> {time}
