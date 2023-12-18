@@ -141,7 +141,7 @@ import {
 
         <FlexBetween mt="1rem" sx={{ flexDirection: "column", lineHeight: "1.5", wordWrap: "break-word" }}>
           {/* Render the appointment details */}
-          <Typography color={icon} marginBottom="5px" sx={{ mt: "0.5rem", wordWrap: "break-word", display: "flex", alignItems: 'center' }}>
+          <Typography color={icon} marginBottom="5px" sx={{ fontSize: 13, mt: "0.5rem", wordWrap: "break-word", display: "flex", alignItems: 'center' }}>
             <Icon component={Event} sx={{ mr:"0.5rem" }}/> {formattedDate}
             <Icon component={AccessTime} sx={{ ml: "1.1rem", mr:"0.4rem" }}/> {time}
           </Typography>
@@ -155,7 +155,7 @@ import {
 
         <Box ml={isNonMobileScreens ? "94%" : "95.5%"}>
           {/* Render the delete button for the review (only visible to the profile owner) */}
-            <IconButton onClick={handleDeleteConfirmationOpen} sx={{ color: main }}>
+            <IconButton onClick={handleDeleteConfirmationOpen} sx={{ color: icon }}>
               <DeleteOutlined />
             </IconButton> 
         </Box>

@@ -116,7 +116,7 @@ const ShowPost = () => {
 
   // Function to handle the opening of the review dialog
   const handleReviewDialogOpen = () => {
-    setIsReviewDialogOpen(true);
+      setIsReviewDialogOpen(true);
   };
 
   // Function to handle the closing of the review dialog
@@ -306,22 +306,13 @@ const ShowPost = () => {
                     <IconButton
                       onClick={handleReviewDialogOpen}
                       sx={{ color: main }}
+                      disabled={reviews.some(review => review.userId === loggedInUserId)}
                     >
                       <ChatBubbleOutlineOutlined />
+                      <Typography sx={{ ml:"0.2rem "}}>
+                        Add Review
+                      </Typography>
                     </IconButton>
-                    
-                    {/* Text indicating the option to add a review */}
-                    <Typography
-                      onClick={handleReviewDialogOpen}
-                      sx={{
-                        color: main,
-                        "&:hover": {
-                          cursor: "pointer",
-                        },
-                      }}
-                    >
-                      Add Review
-                    </Typography>
                   </FlexBetween>
                 )}
               </FlexBetween>
@@ -334,7 +325,6 @@ const ShowPost = () => {
               )}
 
               {/* Render the DateSelector component */}
-
               {user.isClient === true && (
               <DateSelector
                 open={isDatePickerOpen}

@@ -32,12 +32,18 @@ const AppointmentsWidget = ({ userId }) => {
   // State to toggle showing more friends (currently not used)
   const [showMore] = useState(false);
 
-
   const filteredAppointments = appointments.filter(appointment => {
     const appointmentDate = new Date(appointment.date);
     const currentDate = new Date();
     return appointmentDate >= currentDate;
   });
+
+  // Function to sort appointments by date in descending order
+  const sortAppointmentsByDate = (a, b) => {
+    const dateA = new Date(a.date);
+    const dateB = new Date(b.date);
+    return dateB - dateA;
+  };
 
   // Function to fetch the friends list from the server
   const getAppointments = async () => {
@@ -76,7 +82,9 @@ const AppointmentsWidget = ({ userId }) => {
 
       {/* Render the filtered appointments */}
       <Box display="flex" flexDirection="column" mb="0.5rem">
-        {filteredAppointments.slice(0, showMore ? filteredAppointments.length : 2).map((appointment) => (
+        {filteredAppointments.
+        sort(sortAppointmentsByDate).
+        slice(0, showMore ? filteredAppointments.length : 2).map((appointment) => (
           <AppointmentWidgetMaster
             key={appointment._id}
             userId={appointment.userId}
