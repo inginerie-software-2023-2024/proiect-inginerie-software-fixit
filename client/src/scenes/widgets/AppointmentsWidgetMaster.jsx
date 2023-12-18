@@ -61,6 +61,7 @@ const AppointmentsWidget = ({ userId }) => {
     getAppointments();
     console.log(appointments);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <WidgetWrapper>
       {/* Render the "Appointments" title */}
@@ -74,8 +75,8 @@ const AppointmentsWidget = ({ userId }) => {
       </Typography>
 
       {/* Render the filtered appointments */}
-      <Box display="flex" flexDirection="column" gap="1.5rem" mb="0.5rem">
-        {filteredAppointments.slice(0, showMore ? filteredAppointments.length : 3).map((appointment) => (
+      <Box display="flex" flexDirection="column" mb="0.5rem">
+        {filteredAppointments.slice(0, showMore ? filteredAppointments.length : 2).map((appointment) => (
           <AppointmentWidgetMaster
             key={appointment._id}
             userId={appointment.userId}
@@ -92,8 +93,8 @@ const AppointmentsWidget = ({ userId }) => {
       </Box>
 
       {/* Render the "Show More" button if there are more than 3 friends */}
-      {filteredAppointments.length > 3 && (
-        <Box mt="1.5rem" display="flex" justifyContent="center">
+      {filteredAppointments.length > 2 && (
+        <Box mt="0.5rem" display="flex" justifyContent="center">
           <Button
             onClick={() => navigate(`/showMoreAppointments/${userId}`)}
             sx={{

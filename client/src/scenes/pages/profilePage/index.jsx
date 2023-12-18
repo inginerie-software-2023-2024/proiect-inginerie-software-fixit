@@ -222,10 +222,10 @@ const ProfilePage = () => {
                 {/* Render the user widget component */}
                 <UserWidget userId={userId} picturePath={user.picturePath} />
 
-                <Box m="2rem 0" />
+                <Box m="2rem 0"/>
                 {/* Render the friend list widget component */}
 
-                <FriendListWidgetProfile userId={userId} />
+                <FriendListWidgetProfile userId={userId}/>
 
                 <Box m="2rem 0" />
                 {/* Render the friend list widget component */}

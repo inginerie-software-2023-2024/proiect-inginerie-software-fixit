@@ -64,6 +64,12 @@ export const themeSettings = (mode) => {
               default: colorTokens.grey[900],
               alt: colorTokens.grey[800],
             },
+            appointment: {
+              icon: colorTokens.grey[500],
+            },
+            colors: {
+              black: "#000000",
+            },
           }
         : {
             // palette values for light mode
@@ -94,6 +100,12 @@ export const themeSettings = (mode) => {
             background: {
               default: colorTokens.grey[10],
               alt: colorTokens.grey[0]
+            },
+            appointment: {
+              icon: colorTokens.grey[500],
+            },
+            colors: {
+              black: "#000000",
             },
           }),
     },

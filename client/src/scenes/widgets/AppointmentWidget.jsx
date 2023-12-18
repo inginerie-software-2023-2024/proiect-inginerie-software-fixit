@@ -6,7 +6,6 @@ import {
   import { useEffect } from "react";
   import { format } from "date-fns"; 
   import { CheckCircle, HourglassEmpty, Cancel } from "@mui/icons-material";
-
   import {
     Box,
     IconButton,
@@ -19,6 +18,7 @@ import {
     DialogContent,
     DialogActions,
     Rating,
+    Icon
   } from "@mui/material";
   import FlexBetween from "components/FlexBetween";
   import WidgetWrapper from "components/WidgetWrapper";
@@ -28,10 +28,10 @@ import {
   import { useNavigate, useLocation } from "react-router-dom";
   import FriendOnPost from "components/FriendOnPost";
   import { setAppointments } from "state";
+  import { Event, AccessTime, LocationOn, Description } from '@mui/icons-material';
   
   const AppointmentWidget = ({
     appointmentId,
-
     postId,
     description,
     location,
@@ -45,7 +45,8 @@ import {
     const formattedDate = format(new Date(date), "dd/MM/yyyy");
     // Get the theme from MUI's useTheme hook
     const { palette } = useTheme();
-    const main = palette.neutral.main;
+    const main = palette.colors.black;
+    const icon = palette.appointment.icon;
   
     // Local state and variable declarations
     const userId = null;
@@ -115,14 +116,13 @@ import {
     // Fetch the user data when the component mounts or when userId or token changes
     useEffect(() => {
       getUser();
-      console.log(appointmentId);
     }, []);
   
     return (
       <Box >
-      {/* Your existing code */}
-      <WidgetWrapper sx={{ backgroundColor: '#f0f0f0' }} m="2rem 0" ml={isNonMobileScreens ? "15px" : undefined} mr={isNonMobileScreens ? "15px" : undefined }>
-      <FlexBetween>
+        {/* Your existing code */}
+        <WidgetWrapper sx={{ backgroundColor: '#f0f0f0' }} m="2rem 0" ml={isNonMobileScreens ? "15px" : undefined} mr={isNonMobileScreens ? "15px" : undefined }>
+        <FlexBetween>
           <FriendOnPost
             friendId={user._id}
             name={`${user.firstName} ${user.lastName}`}
@@ -134,37 +134,30 @@ import {
             <CheckCircle sx={{ color: 'green', fontSize: 32 }} />}
           {!isAccepted && !isRefused &&
             <HourglassEmpty sx={{ color: 'orange', fontSize: 32 }} />}
-         
           {isRefused && (
             <Cancel sx={{ color: 'red', fontSize: 32 }} />
           )}
         </FlexBetween>
+
         <FlexBetween mt="1rem" sx={{ flexDirection: "column", lineHeight: "1.5", wordWrap: "break-word" }}>
           {/* Render the appointment details */}
-          <Typography color={main} marginBottom="5px" sx={{ mt: "1rem", mb: "1rem", width: "100%", wordWrap: "break-word" }}>
-            Date: {formattedDate}
+          <Typography color={icon} marginBottom="5px" sx={{ mt: "0.5rem", wordWrap: "break-word", display: "flex", alignItems: 'center' }}>
+            <Icon component={Event} sx={{ mr:"0.5rem" }}/> {formattedDate}
+            <Icon component={AccessTime} sx={{ ml: "1.1rem", mr:"0.4rem" }}/> {time}
           </Typography>
-          <Typography color={main} marginBottom="5px" sx={{ mt: "1rem", mb: "1rem", width: "100%", wordWrap: "break-word" }}>
-            Time: {time}
+          <Typography color={icon} marginBottom="5px" sx={{ wordWrap: "break-word", display: "flex", alignItems: "center" }}>
+            <Icon component={LocationOn} sx={{ mr:"0.4rem" }}/> {location}
           </Typography>
-          <Typography color={main} marginBottom="5px" sx={{ mt: "1rem", mb: "1rem", width: "100%", wordWrap: "break-word" }}>
-            Location: {location}
-          </Typography>
-          <Typography color={main} marginBottom="5px" sx={{ mt: "1rem", mb: "1rem", width: "100%", wordWrap: "break-word" }}>
-            Description:  {description}
+          <Typography color={icon} marginBottom="5px" sx={{ mt: "2.5rem", mb: "1rem", width: "100%", wordWrap: "break-word" }}>
+            <Icon component={Description} sx={{ mb:"-0.3rem", mr:"0.4rem" }}/> {description}
           </Typography>
         </FlexBetween>
 
-
-        
-
         <Box ml={isNonMobileScreens ? "94%" : "95.5%"}>
           {/* Render the delete button for the review (only visible to the profile owner) */}
-          
             <IconButton onClick={handleDeleteConfirmationOpen} sx={{ color: main }}>
               <DeleteOutlined />
-            </IconButton>
-          
+            </IconButton> 
         </Box>
 
         {/* Render the delete confirmation dialog */}
@@ -184,10 +177,10 @@ import {
             </Button>
           </DialogActions>
         </Dialog>
-        </WidgetWrapper>
-      </Box>
-    );
-  };
+      </WidgetWrapper>
+    </Box>
+  );
+};
   
-  export default AppointmentWidget;
+export default AppointmentWidget;
   

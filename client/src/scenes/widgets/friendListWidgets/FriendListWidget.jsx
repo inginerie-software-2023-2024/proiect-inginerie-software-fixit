@@ -65,7 +65,7 @@ const FriendListWidget = ({ userId }) => {
       </Typography>
 
       {/* Render the friends */}
-      <Box display="flex" flexDirection="column" gap="1.5rem" mb="0.5rem">
+      <Box display="flex" flexDirection="column" gap="1.5rem" mb="0.5rem" paddingBottom="0.5rem">
         {friends.slice(0, showMore ? friends.length : 3).map((friend) => (
           // Render Friend component for the profile user, or FriendOnPost component for others
           isProfileUser ? (
