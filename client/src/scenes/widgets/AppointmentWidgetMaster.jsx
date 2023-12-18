@@ -29,7 +29,6 @@ import {
   import FriendOnPost from "components/FriendOnPost";
   import { setAppointments } from "state";
   import { Event, AccessTime, LocationOn, Description } from '@mui/icons-material';
-  
   const AppointmentWidgetMaster = ({
     appointmentId,
     userId,
@@ -44,7 +43,7 @@ import {
     const dispatch = useDispatch();
     const token = useSelector((state) => state.token);
     const formattedDate = format(new Date(date), "dd/MM/yyyy");
-
+    const navigate = useNavigate();
     // Get the theme from MUI's useTheme hook
     const { palette } = useTheme();
     const main = palette.colors.black;
@@ -207,19 +206,26 @@ import {
         </FlexBetween>
 
         <FlexBetween mt="2rem" sx={{ flexDirection: "column", wordWrap: "break-word" }}>
-          <Typography color={icon} marginBottom="5px" sx={{ mt: "0.5rem", wordWrap: "break-word", display: "flex", alignItems: 'center' }}>
-            <Icon component={Event} sx={{ mr:"0.5rem" }}/> {formattedDate}
-            <Icon component={AccessTime} sx={{ ml: "1.1rem", mr:"0.4rem" }}/> {time}
-          </Typography>
-          <Typography color={icon} marginBottom="5px" sx={{ mt: "0.6rem", wordWrap: "break-word", display: "flex", alignItems: "center" }}>
-            <Icon component={LocationOn} sx={{ mr:"0.4rem" }}/> {location}
-          </Typography>
-          <Typography color={icon} marginBottom="5px" sx={{ mt: "2.5rem", mb: "0.6rem", width: "100%", wordWrap: "break-word" }}>
-            <Icon component={Description} sx={{ mb: "-0.3rem", mr:"0.4rem" }}/> {description}
-          </Typography>
+        <Typography color={icon} marginBottom="5px" sx={{ mt: "0.5rem", wordWrap: "break-word", display: "flex", alignItems: 'center' }}>
+          <Icon component={Event} sx={{ mr: "0.5rem" }}/> {formattedDate}
+          <Icon component={AccessTime} sx={{ ml: "1.1rem", mr: "0.4rem" }}/> {time}
+        </Typography>
+        <Typography color={icon} marginBottom="5px" sx={{ mt: "0.6rem", wordWrap: "break-word", display: "flex", alignItems: "center" }}>
+          <Icon component={LocationOn} sx={{ mr: "0.4rem" }}/> {location}
+        </Typography>
+        <Typography color={icon} marginBottom="5px" sx={{ mt: "0.6rem", wordWrap: "break-word", display: "flex", alignItems: "center" }}>
+          <Icon component={Description} sx={{ mr: "0.4rem" }}/> {description}
+        </Typography>
+          <Button
+            variant="contained"
+            onClick={() => navigate(`/show/${postId}`)}
+            sx={{ mt: "1rem"}}
+          >
+            See the post
+          </Button>
         </FlexBetween>
 
-        <Box sx={{ mt: "2rem", display: 'flex', justifyContent: 'center' }}>
+        <Box sx={{ mt: "1rem", display: 'flex', justifyContent: 'center' }}>
           {!isAccepted && !isRefused && (
             <>
               <Button onClick={handleAcceptAppointment} sx={{ color: 'green' }}>
