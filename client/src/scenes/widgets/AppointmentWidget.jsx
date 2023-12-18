@@ -40,6 +40,7 @@ import {
     isAccepted,
     isRefused,
   }) => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const token = useSelector((state) => state.token);
     const formattedDate = format(new Date(date), "dd/MM/yyyy");
@@ -145,20 +146,26 @@ import {
             <Icon component={Event} sx={{ mr:"0.5rem" }}/> {formattedDate}
             <Icon component={AccessTime} sx={{ ml: "1.1rem", mr:"0.4rem" }}/> {time}
           </Typography>
-          <Typography color={icon} marginBottom="5px" sx={{ wordWrap: "break-word", display: "flex", alignItems: "center" }}>
+          <Typography color={icon} marginBottom="5px" sx={{mt: "0.6rem", wordWrap: "break-word", display: "flex", alignItems: "center" }}>
             <Icon component={LocationOn} sx={{ mr:"0.4rem" }}/> {location}
           </Typography>
-          <Typography color={icon} marginBottom="5px" sx={{ mt: "2.5rem", mb: "1rem", width: "100%", wordWrap: "break-word" }}>
+          <Typography color={icon} marginBottom="5px" sx={{ mt: "0.6rem", mb: "1rem", width: "100%", wordWrap: "break-word" }}>
             <Icon component={Description} sx={{ mb:"-0.3rem", mr:"0.4rem" }}/> {description}
           </Typography>
-        </FlexBetween>
-
-        <Box ml={isNonMobileScreens ? "94%" : "95.5%"}>
-          {/* Render the delete button for the review (only visible to the profile owner) */}
+          <Typography color={icon} marginBottom="5px" sx={{ mt: "1.6rem", mb: "1rem", width: "100%", wordWrap: "break-word", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <Button
+              variant="contained"
+              onClick={() => navigate(`/show/${postId}`)}
+            >
+              See the post
+            </Button>
             <IconButton onClick={handleDeleteConfirmationOpen} sx={{ color: icon }}>
               <DeleteOutlined />
-            </IconButton> 
-        </Box>
+            </IconButton>
+          </Typography>
+          
+        </FlexBetween>
+
 
         {/* Render the delete confirmation dialog */}
         <Dialog open={deleteConfirmationOpen} onClose={handleDeleteConfirmationClose}>
