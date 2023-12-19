@@ -8,6 +8,7 @@ import {
   import { CheckCircle, HourglassEmpty, Cancel } from "@mui/icons-material";
   import {
     Box,
+    Divider,
     IconButton,
     Typography,
     useTheme,
@@ -47,6 +48,7 @@ import {
     // Get the theme from MUI's useTheme hook
     const { palette } = useTheme();
     const main = palette.colors.black;
+    const background = palette.appointment.background;
     const icon = palette.appointment.icon;
   
     // Local state and variable declarations
@@ -122,7 +124,7 @@ import {
     return (
       <Box >
         {/* Your existing code */}
-        <WidgetWrapper sx={{ backgroundColor: '#f0f0f0' }} m="2rem 0" ml={isNonMobileScreens ? "15px" : undefined} mr={isNonMobileScreens ? "15px" : undefined }>
+        <WidgetWrapper sx={{ backgroundColor: {background} }} m="2rem 0" ml={isNonMobileScreens ? "15px" : undefined} mr={isNonMobileScreens ? "15px" : undefined }>
         <FlexBetween>
           <FriendOnPost
             friendId={user._id}
@@ -140,33 +142,49 @@ import {
           )}
         </FlexBetween>
 
+        <Divider sx={{ mt: "1.6rem", mb: "1rem" }} />
+
         <FlexBetween mt="1rem" sx={{ flexDirection: "column", lineHeight: "1.5", wordWrap: "break-word" }}>
           {/* Render the appointment details */}
-          <Typography color={icon} marginBottom="5px" sx={{ fontSize: 13, mt: "0.5rem", wordWrap: "break-word", display: "flex", alignItems: 'center' }}>
+          <Typography color={icon} marginBottom="5px" sx={{ mt: "0.5rem", wordWrap: "break-word", display: "flex", alignItems: 'center' }}>
             <Icon component={Event} sx={{ mr:"0.5rem" }}/> {formattedDate}
             <Icon component={AccessTime} sx={{ ml: "1.1rem", mr:"0.4rem" }}/> {time}
           </Typography>
-          <Typography color={icon} marginBottom="5px" sx={{mt: "0.6rem", wordWrap: "break-word", display: "flex", alignItems: "center" }}>
+          <Typography color={icon} marginBottom="5px" sx={{ mt: "0.3rem", wordWrap: "break-word", display: "flex", alignItems: "center" }}>
             <Icon component={LocationOn} sx={{ mr:"0.4rem" }}/> {location}
           </Typography>
-          <Typography color={icon} marginBottom="5px" sx={{ mt: "0.6rem", mb: "1rem", width: "100%", wordWrap: "break-word" }}>
-            <Icon component={Description} sx={{ mb:"-0.3rem", mr:"0.4rem" }}/> {description}
+          <Typography color={icon} marginBottom="5px" sx={{ mt: "3rem", mb: "1rem", wordWrap: "break-word", display: "flex", alignItems: "center" }}>
+            {description}
           </Typography>
-          <Typography color={icon} marginBottom="5px" sx={{ mt: "1.6rem", mb: "1rem", width: "100%", wordWrap: "break-word", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <Button
-              variant="contained"
-              onClick={() => navigate(`/show/${postId}`)}
-            >
-              See the post
-            </Button>
+        </FlexBetween>
+
+        <Divider sx={{ mt: "1rem", mb: "1rem" }} />
+
+        <Box
+          display="flex"
+          justifyContent="center"
+        >
+          <Button
+            variant="contained"
+            onClick={() => navigate(`/show/${postId}`)}
+          >
+            See the offer
+          </Button>
+        </Box>
+
+        <Divider sx={{ mt: "1rem", mb: "1rem" }} />
+
+        <Box
+          display="flex"
+          justifyContent="center"
+        >
+          <Typography color={icon} marginBottom="5px" sx={{ mb: "1rem" }}>
             <IconButton onClick={handleDeleteConfirmationOpen} sx={{ color: icon }}>
               <DeleteOutlined />
             </IconButton>
           </Typography>
-          
-        </FlexBetween>
-
-
+        </Box>
+      
         {/* Render the delete confirmation dialog */}
         <Dialog open={deleteConfirmationOpen} onClose={handleDeleteConfirmationClose}>
           <DialogTitle>Delete Appointment</DialogTitle>

@@ -65,6 +65,7 @@ export const themeSettings = (mode) => {
               alt: colorTokens.grey[800],
             },
             appointment: {
+              background: '#000000',
               icon: colorTokens.grey[500],
             },
             colors: {
@@ -102,6 +103,7 @@ export const themeSettings = (mode) => {
               alt: colorTokens.grey[0]
             },
             appointment: {
+              background: '#f0f0f0',
               icon: colorTokens.grey[500],
             },
             colors: {

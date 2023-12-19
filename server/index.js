@@ -90,7 +90,6 @@ app.post(
   editTip
 );
 
-
 /* ROUTES */
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
