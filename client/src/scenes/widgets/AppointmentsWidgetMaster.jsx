@@ -104,7 +104,7 @@ const AppointmentsWidget = ({ userId }) => {
       {filteredAppointments.length > 2 && (
         <Box mt="0.5rem" display="flex" justifyContent="center">
           <Button
-            onClick={() => navigate(`/showMoreAppointments/${userId}`)}
+            onClick={() => navigate(`/showMoreAppointmentsMaster/${userId}`)}
             sx={{
               m: "0.5rem 0",
               p: "0.5rem",

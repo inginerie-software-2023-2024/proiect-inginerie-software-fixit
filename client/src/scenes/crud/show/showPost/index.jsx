@@ -184,11 +184,14 @@ const ShowPost = () => {
     if (!currentPost) {
       getPost();
     }
+
+    console.log(currentPost);
   }, [postId, location]);
 
   useEffect(() => {
-    // Fetch the post reviews when the component mounts
+    console.log("HEEEEEEEEEEEEEEY");
     getPostReviews();
+    // Fetch the post reviews when the component mounts
   }, []);
 
   if (!currentPost) {
@@ -407,8 +410,6 @@ const ShowPost = () => {
           </Button>
         </DialogActions>
       </Dialog>
-
-
     </Box>
   );  
 };

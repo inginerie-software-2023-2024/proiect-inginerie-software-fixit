@@ -45,7 +45,7 @@ const AppointmentsWidget = ({ userId }) => {
     return dateB - dateA;
   };
 
-  // Function to fetch the friends list from the server
+  // Function to fetch the appointments from the server
   const getAppointments = async () => {
     console.log(userId);
     const response = await fetch(
@@ -65,8 +65,7 @@ const AppointmentsWidget = ({ userId }) => {
   useEffect(() => {
     // Fetch the friends list when the component mounts
     getAppointments();
-    console.log(appointments);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <WidgetWrapper>
