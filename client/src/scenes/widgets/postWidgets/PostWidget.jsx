@@ -56,6 +56,7 @@ const PostWidget = ({
 
   const [reviewAverage, setReviewAverage] = useState(0);
   const [noReviews, setNoReviews] = useState(0);
+  const [reviews, setReviewsState] = useState([]);
 
   // Utility hooks
   const { palette } = useTheme();
@@ -110,6 +111,8 @@ const PostWidget = ({
       }
     );
     const data = await response.json();
+    setReviewsState(data);
+
     var stars = 0;
     for (var i in data)
     { var obj = data[i];
@@ -120,6 +123,8 @@ const PostWidget = ({
 
     setReviewAverage(average);
     setNoReviews(data.length);
+
+    console.log("medie: ", average);
   };
 
   const handleReviewDialogOpen = () => {
@@ -228,7 +233,15 @@ const PostWidget = ({
       mr={isNonMobileScreens ? "15px" : undefined}
     >
 
+
         <Friend
+=======
+      {/* Display the friend information */}
+      <FlexBetween gap="1rem" sx={{ width: "100%" }}>
+      {/* Display the like button */}
+        <FlexBetween gap="0.3rem">
+          <Friend
+
             friendId={postUserId}
             name={name}
             subtitle={location}
@@ -249,6 +262,7 @@ const PostWidget = ({
         </FlexBetween>
 
         <FlexBetween gap="0.7rem">
+
           {
             noReviews ?           
             <Box 
@@ -268,10 +282,23 @@ const PostWidget = ({
 
 
 
+=======
+          <Box 
+            bgcolor={primary}
+            borderRadius = "5px"
+            sx={{height:"25px", width:"45px", paddingRight:"12px", paddingTop:"2.5px"}}
+          >
+            <Typography
+              color={main}
+              variant="h7"
+              fontWeight="bold"
+              sx={{ display: "flex", justifyContent: "flex-end", width: "100%", wordWrap: "break-word", alignItems: "center" }}
+            >
+              {reviewAverage}
+            </Typography>
+          </Box>
         </FlexBetween>
-
-    </FlexBetween>
-
+      </FlexBetween>
 
       {/* Display the post title */}
 
@@ -290,21 +317,34 @@ const PostWidget = ({
         </FlexBetween>
 
         <FlexBetween gap="0.3rem" sx = {{cursor: "pointer"}} onClick={() => {
-            navigate(`/show/${postId}`)
-            navigate(0)}}>
-            <ReviewsIcon>
-            </ReviewsIcon>
+          navigate(`/show/${postId}`)
+          navigate(0)}}
+        >
+            <ReviewsIcon></ReviewsIcon>
             <Typography
               color={main}
               variant="h6"
               fontWeight="300"
               sx={{ display: "flex", justifyContent: "flex-end", width: "100%", wordWrap: "break-word", alignItems: "center" }}
-              >
+            >
               {noReviews} reviews
-              </Typography>
-          
+            </Typography>
         </FlexBetween>
       </FlexBetween>
+
+=======
+      
+      {/* Display the post category */}
+      <Typography
+        color={medium}
+        display="flex"
+        alignItems="center"
+        sx={{ mt: "1.3rem", mb: "5px" }}
+      >
+        <ClassIcon sx={{ color: main, mr: "8px" }} />
+        {category ? category.charAt(0).toUpperCase() + category.slice(1) : ""}
+      </Typography>
+
 
       {/* Display the post picture */}
       {picturePath && (
@@ -338,11 +378,16 @@ const PostWidget = ({
           <FlexBetween gap="0.3rem">
             {/* Display the review button */}
             {user.isClient === true && (
-              <IconButton onClick={handleReviewDialogOpen}>
+              <IconButton 
+                onClick={handleReviewDialogOpen}
+                disabled={reviews.some(review => review.userId === loggedInUserId)}
+              >
                 <ChatBubbleOutlineOutlined />
+                <Typography sx={{ ml:"0.2rem "}}>
+                  Add Review
+                </Typography>
               </IconButton>
             )}
-            {user.isClient === true && <Typography>Add Review</Typography>}
           </FlexBetween>
 
                 {/* Friend button (add/remove friend) */}

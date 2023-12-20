@@ -38,7 +38,6 @@ import { setReviews } from "state";
 
 // Define the ShowPost component
 const ShowPost = () => {
-  
   const { postId } = useParams(); // Get the postId from the URL parameters
 
   const currentPost = useSelector((state) =>
@@ -73,27 +72,32 @@ const ShowPost = () => {
   const allReviews = useSelector((state) => state.reviews);
   const [reviews, setReviewsState] = useState(allReviews);
   const hasReviews = reviews.length > 0;
+
 // State variable for date selection
 const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 const [selectedDate, setSelectedDate] = useState(null);
   const [reviewAverage, setReviewAverage] = useState(0);
   const [noReviews, setNoReviews] = useState(0);
 
-// Function to handle opening the date picker
-const handleOpenDatePicker = () => {
-  setIsDatePickerOpen(true);
-};
 
-// Function to handle closing the date picker
-const handleCloseDatePicker = () => {
-  setIsDatePickerOpen(false);
-};
+  // State variable for date selection
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(null);
 
-// Function to handle selecting a date
-const handleSelectDate = (date) => {
-  setSelectedDate(date);
-};
+  // Function to handle opening the date picker
+  const handleOpenDatePicker = () => {
+    setIsDatePickerOpen(true);
+  };
 
+  // Function to handle closing the date picker
+  const handleCloseDatePicker = () => {
+    setIsDatePickerOpen(false);
+  };
+
+  // Function to handle selecting a date
+  const handleSelectDate = (date) => {
+    setSelectedDate(date);
+  };
 
   // Function to fetch the post from the server
   const getPost = async () => {
@@ -121,7 +125,7 @@ const handleSelectDate = (date) => {
 
   // Function to handle the opening of the review dialog
   const handleReviewDialogOpen = () => {
-    setIsReviewDialogOpen(true);
+      setIsReviewDialogOpen(true);
   };
 
   // Function to handle the closing of the review dialog
@@ -200,11 +204,14 @@ const handleSelectDate = (date) => {
     if (!currentPost) {
       getPost();
     }
+
+    console.log(currentPost);
   }, [postId, location]);
 
   useEffect(() => {
-    // Fetch the post reviews when the component mounts
+    console.log("HEEEEEEEEEEEEEEY");
     getPostReviews();
+    // Fetch the post reviews when the component mounts
   }, []);
 
   if (!currentPost) {
@@ -369,22 +376,13 @@ const handleSelectDate = (date) => {
                     <IconButton
                       onClick={handleReviewDialogOpen}
                       sx={{ color: main }}
+                      disabled={reviews.some(review => review.userId === loggedInUserId)}
                     >
                       <ChatBubbleOutlineOutlined />
+                      <Typography sx={{ ml:"0.2rem "}}>
+                        Add Review
+                      </Typography>
                     </IconButton>
-                    
-                    {/* Text indicating the option to add a review */}
-                    <Typography
-                      onClick={handleReviewDialogOpen}
-                      sx={{
-                        color: main,
-                        "&:hover": {
-                          cursor: "pointer",
-                        },
-                      }}
-                    >
-                      Add Review
-                    </Typography>
                   </FlexBetween>
                 )}
               </FlexBetween>
@@ -397,7 +395,6 @@ const handleSelectDate = (date) => {
               )}
 
               {/* Render the DateSelector component */}
-
               {user.isClient === true && (
               <DateSelector
                 open={isDatePickerOpen}
@@ -480,8 +477,6 @@ const handleSelectDate = (date) => {
           </Button>
         </DialogActions>
       </Dialog>
-
-
     </Box>
   );  
 };

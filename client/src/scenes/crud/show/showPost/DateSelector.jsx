@@ -85,6 +85,7 @@ const DateSelector = ({ open, onClose, onSelectDate, postId }) => {
       location: address,
       description,
       time: selectedTime,
+      isAccepted: false,
     };
 
     try {
@@ -110,10 +111,7 @@ const DateSelector = ({ open, onClose, onSelectDate, postId }) => {
 
   useEffect(() => {
     if (selectedDate) {
-        
       getDateAppointments(selectedDate);
-      console.log(dateAppointments);
-
     }
   }, [selectedDate]);
   
@@ -131,6 +129,9 @@ const DateSelector = ({ open, onClose, onSelectDate, postId }) => {
             onChange={handleDateChange}
             InputLabelProps={{
               shrink: true,
+            }}
+            inputProps={{
+              min: new Date().toISOString().split("T")[0],
             }}
           />
 

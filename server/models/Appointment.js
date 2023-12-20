@@ -33,6 +33,14 @@ const appointmentSchema = mongoose.Schema(
     time:{
       type: String,
       required: true,
+    },
+    isAccepted: {
+      type: Boolean,
+      required:true,
+    },
+    isRefused: {
+      type: Boolean,
+      required:true,
     }
     //userPicturePath: String,
   },

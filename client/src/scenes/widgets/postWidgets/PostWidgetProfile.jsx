@@ -49,6 +49,7 @@ const PostWidgetProfile = ({
   const [isReviewDialogOpen, setIsReviewDialogOpen] = useState(false);
   const [reviewRating, setReviewRating] = useState(0);
   const [reviewDescription, setReviewDescription] = useState("");
+  const [reviews, setReviewsState] = useState([]);
 
   // Redux hooks
   const dispatch = useDispatch();
@@ -90,6 +91,18 @@ const PostWidgetProfile = ({
     );
     const updatedPost = await response.json();
     dispatch(setPost({ post: updatedPost }));
+  };
+
+  const getPostReviews = async () => {
+    const response = await fetch(
+      `http://localhost:3001/reviews/${postId}/postReviews`,
+      {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    const data = await response.json();
+    setReviewsState(data);
   };
 
   // Open the review dialog
@@ -171,7 +184,6 @@ const PostWidgetProfile = ({
       window.location.reload();
     }
   };
-
     const getPostReviews = async () => {
     const response = await fetch(
       `http://localhost:3001/reviews/${postId}/postReviews`,
@@ -315,21 +327,13 @@ const PostWidgetProfile = ({
               <IconButton 
                 onClick={handleReviewDialogOpen}
                 sx={{ color: medium }}
+                disabled={reviews.some(review => review.userId === loggedInUserId)}
               >
                 <ChatBubbleOutlineOutlined />
+                <Typography sx={{ ml:"0.2rem "}}>
+                  Add Review
+                </Typography>
               </IconButton>
-              <Typography
-                onClick={handleReviewDialogOpen}
-                sx={{ 
-                  color: medium, 
-                  "&:hover": {
-                    cursor: "pointer",
-                    color: main,
-                  },
-                }}
-              >
-                Add Review
-              </Typography>
             </FlexBetween>
           )}
 

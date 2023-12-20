@@ -6,6 +6,8 @@ import ShowPost from "scenes/crud/show/showPost";
 import CreatePostPage from "scenes/crud/create/createPostPage";
 import EditProfilePage from "scenes/crud/edit/editProfilePage";
 import ShowMoreFriends from "scenes/crud/show/showMoreFriends";
+import ShowMoreAppointments from "scenes/crud/show/showMoreAppointments";
+import ShowMoreAppointmentsMaster from "scenes/crud/show/showMoreAppointmentsMaster";
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { CssBaseline, ThemeProvider } from "@mui/material";
@@ -59,6 +61,14 @@ function App() {
             <Route
               path="/showMoreFriends/:userId"
               element={isAuth ? <ShowMoreFriends /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/showMoreAppointments/:userId"
+              element={isAuth ? <ShowMoreAppointments /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/showMoreAppointmentsMaster/:userId"
+              element={isAuth ? <ShowMoreAppointmentsMaster /> : <Navigate to="/" />}
             />
             <Route
               path="/show/:postId"
