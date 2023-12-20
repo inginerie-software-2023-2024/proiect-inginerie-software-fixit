@@ -10,6 +10,7 @@ import PostsWidget from "scenes/widgets/postWidgets/PostsWidget";
 import UserWidget from "scenes/widgets/UserWidget";
 import TipsWidget from "scenes/widgets/tipWidgets/TipsWidget";
 import AppointmentsWidget from "scenes/widgets/AppointmentsWidget";
+import ReviewsIcon from "@mui/icons-material/Reviews";
 
 const ProfilePage = () => {
   // State to store the user data

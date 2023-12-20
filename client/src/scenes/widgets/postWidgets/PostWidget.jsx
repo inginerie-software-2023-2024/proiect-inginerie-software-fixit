@@ -7,6 +7,8 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import ClassIcon from "@mui/icons-material/Class";
 import ReviewsIcon from '@mui/icons-material/Reviews';
+import { PersonAddOutlined, PersonRemoveOutlined } from "@mui/icons-material";
+import { setFriends } from "state";
 import {
   Box,
   Divider,
@@ -60,6 +62,8 @@ const PostWidget = ({
   const main = palette.neutral.main;
   const medium = palette.neutral.medium;
   const primary = palette.primary.main;
+  const primaryLight = palette.primary.light;
+  const primaryDark = palette.primary.dark;
 
   const location2 = useLocation();
   const isHomePage = location2.pathname === "/home";
@@ -73,6 +77,14 @@ const PostWidget = ({
   // Check if the current user has liked the post
   const isLiked = Boolean(likes[loggedInUserId]);
   const likeCount = Object.keys(likes).length;
+
+  // Get the current user's friends list
+  const friends = useSelector((state) => state.user.friends);
+
+    // Check if the current friend is in the user's friends list
+  const isFriend = friends.find((friend) => friend._id === postUserId);
+
+ 
 
   // Function to handle the like action on the post
   const patchLike = async () => {
@@ -98,7 +110,6 @@ const PostWidget = ({
       }
     );
     const data = await response.json();
-    console.log("review-uri la postare: ", data);
     var stars = 0;
     for (var i in data)
     { var obj = data[i];
@@ -109,8 +120,6 @@ const PostWidget = ({
 
     setReviewAverage(average);
     setNoReviews(data.length);
-
-    console.log("medie: ", average);
   };
 
   const handleReviewDialogOpen = () => {
@@ -191,6 +200,22 @@ const PostWidget = ({
     }
   };
 
+    // Patch friend status when the button is clicked
+  const patchFriend = async () => {
+    const response = await fetch(
+      `http://localhost:3001/users/${loggedInUserId}/${postUserId}`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const data = await response.json();
+    dispatch(setFriends({ friends: data }));
+  };
+
    useEffect(() => {
     // Fetch the post reviews when the component mounts
     getPostReviews();
@@ -202,20 +227,31 @@ const PostWidget = ({
       ml={isNonMobileScreens ? "15px" : undefined}
       mr={isNonMobileScreens ? "15px" : undefined}
     >
-      {/* Display the friend information */}
-    <FlexBetween gap="1rem" sx={{ width: "100%" }}>
-    {/* Display the like button */}
-        <FlexBetween gap="0.3rem">
-          <Friend
+
+        <Friend
             friendId={postUserId}
             name={name}
             subtitle={location}
             userPicturePath={userPicturePath}
           />
+      {/* Display the friend information */}
+    <FlexBetween gap="1rem" sx={{ width: "100%" }}>
+    {/* Display the like button */}
+        <FlexBetween gap="0.3rem">
+          <Typography
+            color={main}
+            variant="h5"
+            fontWeight="500"
+            sx={{ mt: "1rem", width: "100%", wordWrap: "break-word" }}
+          >
+            {title}
+          </Typography>
         </FlexBetween>
 
         <FlexBetween gap="0.7rem">
-          <Box 
+          {
+            noReviews ?           
+            <Box 
           bgcolor={primary}
           borderRadius = "5px"
           sx={{height:"25px", width:"45px", paddingRight:"12px", paddingTop:"2.5px"}}>
@@ -227,7 +263,10 @@ const PostWidget = ({
           >
         {reviewAverage}
           </Typography>
-          </Box>
+          </Box> : null
+          }
+
+
 
         </FlexBetween>
 
@@ -238,14 +277,16 @@ const PostWidget = ({
 
       <FlexBetween gap="1rem" sx={{ width: "100%" }}>
         <FlexBetween gap="0.3rem">
-          <Typography
-            color={main}
-            variant="h5"
-            fontWeight="500"
-            sx={{ mt: "1rem", width: "100%", wordWrap: "break-word" }}
-          >
-            {title}
-          </Typography>
+            {/* Display the post category */}
+            <Typography
+              color={medium}
+              display="flex"
+              alignItems="center"
+              sx={{ mt: "1.3rem", mb: "5px" }}
+            >
+              <ClassIcon sx={{ color: main, mr: "8px" }} />
+              {category ? category.charAt(0).toUpperCase() + category.slice(1) : ""}
+            </Typography>
         </FlexBetween>
 
         <FlexBetween gap="0.3rem" sx = {{cursor: "pointer"}} onClick={() => {
@@ -264,18 +305,6 @@ const PostWidget = ({
           
         </FlexBetween>
       </FlexBetween>
-      
-
-      {/* Display the post category */}
-      <Typography
-        color={medium}
-        display="flex"
-        alignItems="center"
-        sx={{ mt: "1.3rem", mb: "5px" }}
-      >
-        <ClassIcon sx={{ color: main, mr: "8px" }} />
-        {category ? category.charAt(0).toUpperCase() + category.slice(1) : ""}
-      </Typography>
 
       {/* Display the post picture */}
       {picturePath && (
@@ -290,8 +319,10 @@ const PostWidget = ({
 
       <Divider sx={{ mt: "1rem", mb: "1rem" }} />
 
+     
+
       <FlexBetween mt="0.25rem">
-        <FlexBetween gap="1rem">
+        <FlexBetween gap="1rem" sx={{ width: "100%" }}>
           {/* Display the like button */}
           <FlexBetween gap="0.3rem">
             <IconButton onClick={patchLike}>
@@ -313,11 +344,24 @@ const PostWidget = ({
             )}
             {user.isClient === true && <Typography>Add Review</Typography>}
           </FlexBetween>
-        </FlexBetween>
 
-        <Box>
-          {/* Display the edit button for the profile user */}
-          {isProfileUser && (
+                {/* Friend button (add/remove friend) */}
+          <FlexBetween gap="0.7rem">
+            {!isProfileUser && (
+                    <IconButton
+                      onClick={() => patchFriend()}
+                      sx={{ backgroundColor: primaryLight, p: "0.6rem" }}
+                    >
+                      {/* Display different icons based on friend status */}
+                      {isFriend ? (
+                        <PersonRemoveOutlined sx={{ color: primaryDark }} />
+                      ) : (
+                        <PersonAddOutlined sx={{ color: primaryDark }} />
+                      )}
+                    </IconButton>
+                  )}
+
+              {isProfileUser && (
             <IconButton
               onClick={() => navigate(`/editpost/${postId}`)}
               sx={{
@@ -335,7 +379,13 @@ const PostWidget = ({
               <DeleteOutlined />
             </IconButton>
           )}
-        </Box>
+          </FlexBetween>
+
+          
+      
+        </FlexBetween>
+
+        
       </FlexBetween>
 
       <Divider sx={{ mt: "1rem", mb: "1rem" }} />

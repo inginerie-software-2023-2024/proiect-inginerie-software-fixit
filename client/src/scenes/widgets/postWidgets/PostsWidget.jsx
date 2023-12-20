@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setPosts, setCategory, setSearchQuery } from "state";
+import { setPosts, setCategory, setSearchQuery, setFilter } from "state";
 import PostWidget from "./PostWidget";
 import PostWidgetProfile from "./PostWidgetProfile";
 
@@ -17,12 +17,14 @@ const PostsWidget = ({ userId, isProfile = false }) => {
   
   // Get the token from the Redux store
   const token = useSelector((state) => state.token);
+  const filter = useSelector((state) => state.filter);
 
   // Function to fetch all posts
   const getPosts = async () => {
     try {
       dispatch(setCategory({ category: null })); // Reset category filter
       dispatch(setSearchQuery({ searchQuery: "" })); // Reset search query
+      dispatch(setFilter({ filter: null }));
       const response = await fetch("http://localhost:3001/posts", {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
@@ -60,9 +62,27 @@ const PostsWidget = ({ userId, isProfile = false }) => {
     }
   };
 
+  const getPostReviews = async (postId) => {
+    const response = await fetch(
+      `http://localhost:3001/reviews/${postId}/postReviews`,
+      {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    const data = await response.json();
+    var stars = 0;
+    for (var i in data)
+    { var obj = data[i];
+      stars += parseInt(obj["stars"]);
+    }
+
+    var average = stars / data.length;
+    return average;
+  };
+
   useEffect(() => {
     setLoading(true); // Set loading state to true before fetching data
-    
     if (isProfile) {
       getUserPosts();
     } else {
@@ -84,8 +104,32 @@ const PostsWidget = ({ userId, isProfile = false }) => {
     if (category) {
       filteredPosts = filteredPosts.filter((post) => post.category === category);
     }
+
+    if(filter)
+    {
+      const sortPostsByAverage = async (filteredPosts) => {
+      const promises = filteredPosts.map(async (post) => {
+        const average = await getPostReviews(post._id);
+        return { ...post, average }; // Attach the average to the post
+      });
+
+      const postsWithAverage = await Promise.all(promises);
+
+      // Now, sort the posts based on the average
+      const sortedPosts = postsWithAverage.sort((postA, postB) => {
+        return postB.average - postA.average;
+      });
+
+      return sortedPosts;
+    };
+
+     sortPostsByAverage(filteredPosts).then((sortedPosts) => {
+        console.log("Sorted posts: ", sortedPosts);
+        setPostsState(sortedPosts);
+      });
+  }
     setPostsState(filteredPosts);
-  }, [searchQuery, category, allPosts]);
+  }, [searchQuery, category, allPosts, filter]);
 
   if (loading) {
     return (
