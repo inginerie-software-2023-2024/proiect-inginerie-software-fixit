@@ -235,13 +235,6 @@ const PostWidget = ({
 
 
         <Friend
-=======
-      {/* Display the friend information */}
-      <FlexBetween gap="1rem" sx={{ width: "100%" }}>
-      {/* Display the like button */}
-        <FlexBetween gap="0.3rem">
-          <Friend
-
             friendId={postUserId}
             name={name}
             subtitle={location}
@@ -279,24 +272,6 @@ const PostWidget = ({
           </Typography>
           </Box> : null
           }
-
-
-
-=======
-          <Box 
-            bgcolor={primary}
-            borderRadius = "5px"
-            sx={{height:"25px", width:"45px", paddingRight:"12px", paddingTop:"2.5px"}}
-          >
-            <Typography
-              color={main}
-              variant="h7"
-              fontWeight="bold"
-              sx={{ display: "flex", justifyContent: "flex-end", width: "100%", wordWrap: "break-word", alignItems: "center" }}
-            >
-              {reviewAverage}
-            </Typography>
-          </Box>
         </FlexBetween>
       </FlexBetween>
 
@@ -331,19 +306,6 @@ const PostWidget = ({
             </Typography>
         </FlexBetween>
       </FlexBetween>
-
-=======
-      
-      {/* Display the post category */}
-      <Typography
-        color={medium}
-        display="flex"
-        alignItems="center"
-        sx={{ mt: "1.3rem", mb: "5px" }}
-      >
-        <ClassIcon sx={{ color: main, mr: "8px" }} />
-        {category ? category.charAt(0).toUpperCase() + category.slice(1) : ""}
-      </Typography>
 
 
       {/* Display the post picture */}

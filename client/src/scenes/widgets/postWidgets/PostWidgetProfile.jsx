@@ -93,18 +93,6 @@ const PostWidgetProfile = ({
     dispatch(setPost({ post: updatedPost }));
   };
 
-  const getPostReviews = async () => {
-    const response = await fetch(
-      `http://localhost:3001/reviews/${postId}/postReviews`,
-      {
-        method: "GET",
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
-    const data = await response.json();
-    setReviewsState(data);
-  };
-
   // Open the review dialog
   const handleReviewDialogOpen = () => {
     setIsReviewDialogOpen(true);
@@ -203,6 +191,7 @@ const PostWidgetProfile = ({
 
     setReviewAverage(average);
     setNoReviews(data.length);
+    setReviewsState(data);
   };
 
      useEffect(() => {

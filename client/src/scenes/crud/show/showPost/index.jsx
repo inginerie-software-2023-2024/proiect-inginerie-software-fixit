@@ -76,13 +76,9 @@ const ShowPost = () => {
 // State variable for date selection
 const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 const [selectedDate, setSelectedDate] = useState(null);
-  const [reviewAverage, setReviewAverage] = useState(0);
-  const [noReviews, setNoReviews] = useState(0);
+const [reviewAverage, setReviewAverage] = useState(0);
+const [noReviews, setNoReviews] = useState(0);
 
-
-  // State variable for date selection
-  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(null);
 
   // Function to handle opening the date picker
   const handleOpenDatePicker = () => {
