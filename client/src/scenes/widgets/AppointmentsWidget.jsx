@@ -65,7 +65,6 @@ const AppointmentsWidget = ({ userId }) => {
   useEffect(() => {
     // Fetch the friends list when the component mounts
     getAppointments();
-    console.log(appointments);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (

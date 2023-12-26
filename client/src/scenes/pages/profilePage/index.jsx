@@ -67,7 +67,7 @@ const ProfilePage = () => {
       );
       const data = await response.json();
       const reversedData = data.reverse(); // Sort the data in reverse order
-      dispatch(setPosts({ posts: reversedData }));
+      //dispatch(setPosts({ posts: reversedData }));
       setPostsState(reversedData);
     } catch (error) {
       console.error("Failed to fetch user posts:", error);
