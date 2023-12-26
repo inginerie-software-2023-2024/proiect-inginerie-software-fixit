@@ -12,6 +12,7 @@ import TipsWidget from "scenes/widgets/tipWidgets/TipsWidget";
 import AppointmentsWidget from "scenes/widgets/AppointmentsWidget";
 import AppointmentsWidgetMaster from "scenes/widgets/AppointmentsWidgetMaster";
 
+
 const ProfilePage = () => {
   // State to store the user data
   const [user, setUser] = useState(null);

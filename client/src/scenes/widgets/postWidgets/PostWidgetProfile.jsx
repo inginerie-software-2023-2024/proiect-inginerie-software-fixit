@@ -6,6 +6,7 @@ import {
 } from "@mui/icons-material";
 import EditIcon from "@mui/icons-material/Edit";
 import ClassIcon from "@mui/icons-material/Class";
+import ReviewsIcon from '@mui/icons-material/Reviews';
 import {
   Box,
   Divider,
@@ -72,6 +73,9 @@ const PostWidgetProfile = ({
   const likeCount = Object.keys(likes).length;
   const isLiked = Boolean(likes[loggedInUserId]);
 
+  const [reviewAverage, setReviewAverage] = useState(0);
+  const [noReviews, setNoReviews] = useState(0);
+
   // Function to handle the like action on the post
   const patchLike = async () => {
     const response = await fetch(
@@ -87,18 +91,6 @@ const PostWidgetProfile = ({
     );
     const updatedPost = await response.json();
     dispatch(setPost({ post: updatedPost }));
-  };
-
-  const getPostReviews = async () => {
-    const response = await fetch(
-      `http://localhost:3001/reviews/${postId}/postReviews`,
-      {
-        method: "GET",
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
-    const data = await response.json();
-    setReviewsState(data);
   };
 
   // Open the review dialog
@@ -180,8 +172,29 @@ const PostWidgetProfile = ({
       window.location.reload();
     }
   };
+    const getPostReviews = async () => {
+    const response = await fetch(
+      `http://localhost:3001/reviews/${postId}/postReviews`,
+      {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    const data = await response.json();
+    var stars = 0;
+    for (var i in data)
+    { var obj = data[i];
+      stars += parseInt(obj["stars"]);
+    }
 
-  useEffect(() => {
+    var average = (stars / data.length).toFixed(1);
+
+    setReviewAverage(average);
+    setNoReviews(data.length);
+    setReviewsState(data);
+  };
+
+     useEffect(() => {
     // Fetch the post reviews when the component mounts
     getPostReviews();
   }, []);
@@ -196,26 +209,73 @@ const PostWidgetProfile = ({
         userPicturePath={userPicturePath}
       />
 
-      {/* Display the post title */}
-      <Typography
-        color={main}
-        variant="h5"
-        fontWeight="500"
-        sx={{ mt: "1rem", width: "100%", wordWrap: "break-word" }}
-      >
-        {title}
-      </Typography>
+      <FlexBetween gap="1rem" sx={{ width: "100%" }}>
+        <FlexBetween gap="0.3rem">
+                {/* Display the post title */}
+                <Typography
+                  color={main}
+                  variant="h5"
+                  fontWeight="500"
+                  sx={{ mt: "1rem", width: "100%", wordWrap: "break-word" }}
+                >
+                  {title}
+                </Typography>
+              </FlexBetween>
+
+
+
+      <FlexBetween gap="0.7rem">
+        {
+          noReviews ? <Box 
+          bgcolor={primary}
+          borderRadius = "5px"
+          sx={{height:"25px", width:"45px", paddingRight:"12px", paddingTop:"2.5px"}}>
+            <Typography
+            color={main}
+            variant="h7"
+            fontWeight="bold"
+          sx={{ display: "flex", justifyContent: "flex-end", width: "100%", wordWrap: "break-word", alignItems: "center" }}
+          >
+        {reviewAverage}
+          </Typography>
+          </Box> : null
+        }
+          
+
+        </FlexBetween>
+      </FlexBetween>
+
+      
 
       {/* Display the post category */}
-      <Typography
-        color={medium}
-        display="flex"
-        alignItems="center"
-        sx={{ mt: "1.3rem", mb: "5px" }}
-      >
-        <ClassIcon sx={{ color: main, mr: "8px" }} />
-        {category ? category.charAt(0).toUpperCase() + category.slice(1) : ""}
-      </Typography>
+
+      <FlexBetween gap="1rem" sx={{ width: "100%" }}>
+        <FlexBetween gap="0.3rem">
+          <Typography
+                  color={medium}
+                  display="flex"
+                  alignItems="center"
+                  sx={{ mt: "1.3rem", mb: "5px" }}
+                >
+                  <ClassIcon sx={{ color: main, mr: "8px" }} />
+                  {category ? category.charAt(0).toUpperCase() + category.slice(1) : ""}
+          </Typography>
+        </FlexBetween>
+
+        <FlexBetween gap="0.7rem">
+            <ReviewsIcon>
+            </ReviewsIcon>
+            <Typography
+              color={main}
+              variant="h6"
+              fontWeight="300"
+              sx={{ display: "flex", justifyContent: "flex-end", width: "100%", wordWrap: "break-word", alignItems: "center" }}
+              >
+              {noReviews} reviews
+              </Typography>
+        </FlexBetween>
+      </FlexBetween>
+     
 
       {/* Display the post picture */}
       {picturePath && (

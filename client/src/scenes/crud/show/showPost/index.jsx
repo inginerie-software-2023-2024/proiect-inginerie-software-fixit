@@ -4,6 +4,7 @@ import {
   FavoriteBorderOutlined,
   FavoriteOutlined,
 } from "@mui/icons-material";
+import ReviewsIcon from "@mui/icons-material/Reviews";
 import EditIcon from "@mui/icons-material/Edit";
 import ClassIcon from "@mui/icons-material/Class";
 import DateSelector from "./DateSelector"; 
@@ -61,6 +62,7 @@ const ShowPost = () => {
   const { palette } = useTheme();
   const main = palette.neutral.main;
   const medium = palette.neutral.medium;
+  const primary = palette.primary.main;
 
   const location = useLocation();
 
@@ -71,9 +73,12 @@ const ShowPost = () => {
   const [reviews, setReviewsState] = useState(allReviews);
   const hasReviews = reviews.length > 0;
 
-  // State variable for date selection
-  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(null);
+// State variable for date selection
+const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+const [selectedDate, setSelectedDate] = useState(null);
+const [reviewAverage, setReviewAverage] = useState(0);
+const [noReviews, setNoReviews] = useState(0);
+
 
   // Function to handle opening the date picker
   const handleOpenDatePicker = () => {
@@ -177,6 +182,17 @@ const ShowPost = () => {
     const data = await response.json();
     dispatch(setReviews({ reviews: data }));
     setReviewsState(data);
+
+    var stars = 0;
+    for (var i in data)
+    { var obj = data[i];
+      stars += parseInt(obj["stars"]);
+    }
+
+    var average = (stars / data.length).toFixed(1);
+
+    setReviewAverage(average);
+    setNoReviews(data.length);
   };
 
   useEffect(() => {
@@ -184,11 +200,14 @@ const ShowPost = () => {
     if (!currentPost) {
       getPost();
     }
+
+    console.log(currentPost);
   }, [postId, location]);
 
   useEffect(() => {
-    // Fetch the post reviews when the component mounts
+    console.log("HEEEEEEEEEEEEEEY");
     getPostReviews();
+    // Fetch the post reviews when the component mounts
   }, []);
 
   if (!currentPost) {
@@ -225,35 +244,82 @@ const ShowPost = () => {
               subtitle={currentPost.location}
               userPicturePath={currentPost.userPicturePath}
             />
+
+            <FlexBetween gap="1rem" sx={{ width: "100%" }}>
+              <FlexBetween gap="0.3rem">
+              {/* Displaying the category of the post */}
+                            <Typography
+                              color={medium}
+                              display="flex"
+                              alignItems="center"
+                              sx={{ mt: "1.3rem", mb: "5px" }}
+                            >
+                              <ClassIcon sx={{ color: main, mr: "8px" }} />
+                              {currentPost.category
+                                ? currentPost.category.charAt(0).toUpperCase() +
+                                  currentPost.category.slice(1)
+                                : ""}
+                            </Typography>
+              </FlexBetween>
+
+              <FlexBetween gap="0.7rem">
+                {
+                  noReviews ?                 
+                  <Box 
+                bgcolor={primary}
+                borderRadius = "5px"
+                sx={{height:"25px", width:"45px", paddingRight:"12px", paddingTop:"2.5px"}}>
+                  <Typography
+                  color={main}
+                  variant="h7"
+                  fontWeight="bold"
+                sx={{ display: "flex", justifyContent: "flex-end", width: "100%", wordWrap: "break-word", alignItems: "center" }}
+                >
+              {reviewAverage}
+                </Typography>
+                </Box>: null
+                }
+
+
+            </FlexBetween>
+          </FlexBetween>
+
+          <FlexBetween gap="1rem" sx={{ width: "100%" }}>
+            <FlexBetween gap="0.3rem">
+    {/* Displaying the title of the post */}
+                <Typography
+                  color={main}
+                  variant="h5"
+                  fontWeight="500"
+                  sx={{
+                    mt: "1.5rem",
+                    mb: "0.80rem",
+                    width: "100%",
+                    wordWrap: "break-word",
+                  }}
+                >
+                  {currentPost.title}
+                </Typography>
+            </FlexBetween>
   
-            {/* Displaying the category of the post */}
-            <Typography
-              color={medium}
-              display="flex"
-              alignItems="center"
-              sx={{ mt: "1.3rem", mb: "5px" }}
-            >
-              <ClassIcon sx={{ color: main, mr: "8px" }} />
-              {currentPost.category
-                ? currentPost.category.charAt(0).toUpperCase() +
-                  currentPost.category.slice(1)
-                : ""}
-            </Typography>
-  
-            {/* Displaying the title of the post */}
-            <Typography
-              color={main}
-              variant="h5"
-              fontWeight="500"
-              sx={{
-                mt: "1.5rem",
-                mb: "0.80rem",
-                width: "100%",
-                wordWrap: "break-word",
-              }}
-            >
-              {currentPost.title}
-            </Typography>
+            
+
+            <FlexBetween gap="0.7rem">
+              <ReviewsIcon>
+              </ReviewsIcon>
+              <Typography
+                color={main}
+                variant="h6"
+                fontWeight="300"
+                sx={{ display: "flex", justifyContent: "flex-end", width: "100%", wordWrap: "break-word", alignItems: "center" }}
+                >
+                {noReviews} reviews
+                </Typography>
+          
+            </FlexBetween>
+          </FlexBetween>
+
+            
   
             {/* Displaying the picture associated with the post, if any */}
             {currentPost.picturePath && (
@@ -407,8 +473,6 @@ const ShowPost = () => {
           </Button>
         </DialogActions>
       </Dialog>
-
-
     </Box>
   );  
 };
