@@ -39,7 +39,7 @@ import { setReviews } from "state";
 // Define the ShowPost component
 const ShowPost = () => {
   const { postId } = useParams(); // Get the postId from the URL parameters
-
+  console.log(postId);
   const currentPost = useSelector((state) =>
     state.posts.find((post) => post._id === postId)
   ); // Find the current post from the Redux state based on the postId
