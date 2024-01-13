@@ -97,7 +97,7 @@ const HomePage = () => {
          />
         </Box>
           {/* Categories component displays post categories */}
-          <Box   className="categories-widget" sx={{  height:150  }}>
+          <Box   className="categories-widget" sx={{  height:200  }}>
           <Categories />
           </Box>
           {/* PostsWidget component displays posts */}
