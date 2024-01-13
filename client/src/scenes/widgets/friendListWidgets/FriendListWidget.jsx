@@ -53,7 +53,7 @@ const FriendListWidget = ({ userId }) => {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <WidgetWrapper>
+    <WidgetWrapper >
       {/* Render the "Following" title */}
       <Typography
         color={palette.neutral.dark}
