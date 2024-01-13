@@ -12,6 +12,7 @@ import TipsWidget from "scenes/widgets/tipWidgets/TipsWidget";
 import AppointmentsWidget from "scenes/widgets/AppointmentsWidget";
 import AppointmentsWidgetMaster from "scenes/widgets/AppointmentsWidgetMaster";
 
+
 const ProfilePage = () => {
   // State to store the user data
   const [user, setUser] = useState(null);
@@ -67,7 +68,7 @@ const ProfilePage = () => {
       );
       const data = await response.json();
       const reversedData = data.reverse(); // Sort the data in reverse order
-      dispatch(setPosts({ posts: reversedData }));
+      //dispatch(setPosts({ posts: reversedData }));
       setPostsState(reversedData);
     } catch (error) {
       console.error("Failed to fetch user posts:", error);

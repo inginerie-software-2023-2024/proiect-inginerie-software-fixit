@@ -13,6 +13,7 @@ import {
     useTheme,
     Button,
     useMediaQuery,
+    Divider,
     Dialog,
     DialogTitle,
     DialogContent,
@@ -29,7 +30,6 @@ import {
   import FriendOnPost from "components/FriendOnPost";
   import { setAppointments } from "state";
   import { Event, AccessTime, LocationOn, Description } from '@mui/icons-material';
-  
   const AppointmentWidgetMaster = ({
     appointmentId,
     userId,
@@ -44,11 +44,13 @@ import {
     const dispatch = useDispatch();
     const token = useSelector((state) => state.token);
     const formattedDate = format(new Date(date), "dd/MM/yyyy");
+    const navigate = useNavigate();
 
     // Get the theme from MUI's useTheme hook
     const { palette } = useTheme();
     const main = palette.colors.black;
     const icon = palette.appointment.icon;
+    const background = palette.appointment.background;
 
     const [acceptError, setAcceptError] = useState(null);
     const [refuseError, setRefuseError] = useState(null);
@@ -188,8 +190,7 @@ import {
   
     return (
       <Box >
-        {/* Your existing code */}
-        <WidgetWrapper sx={{ backgroundColor: '#f0f0f0' }} m="2rem 0" ml={isNonMobileScreens ? "15px" : undefined} mr={isNonMobileScreens ? "15px" : undefined }>
+        <WidgetWrapper sx={{ backgroundColor: {background} }} m="2rem 0" ml={isNonMobileScreens ? "15px" : undefined} mr={isNonMobileScreens ? "15px" : undefined }>
         <FlexBetween>
           <FriendOnPost
             friendId={user._id}
@@ -207,21 +208,38 @@ import {
           )}
         </FlexBetween>
 
+        <Divider sx={{ mt: "1.6rem", mb: "1rem" }} />
+
         <FlexBetween mt="2rem" sx={{ flexDirection: "column", wordWrap: "break-word" }}>
-          {/* Render the appointment details */}
           <Typography color={icon} marginBottom="5px" sx={{ mt: "0.5rem", wordWrap: "break-word", display: "flex", alignItems: 'center' }}>
-            <Icon component={Event} sx={{ mr:"0.5rem" }}/> {formattedDate}
-            <Icon component={AccessTime} sx={{ ml: "1.1rem", mr:"0.4rem" }}/> {time}
+            <Icon component={Event} sx={{ mr: "0.5rem" }}/> {formattedDate}
+            <Icon component={AccessTime} sx={{ ml: "1.1rem", mr: "0.4rem" }}/> {time}
           </Typography>
-          <Typography color={icon} marginBottom="5px" sx={{ mt: "0.6rem", wordWrap: "break-word", display: "flex", alignItems: "center" }}>
-            <Icon component={LocationOn} sx={{ mr:"0.4rem" }}/> {location}
+          <Typography color={icon} marginBottom="5px" sx={{ mt: "0.3em", wordWrap: "break-word", display: "flex", alignItems: "center" }}>
+            <Icon component={LocationOn} sx={{ mr: "0.4rem" }}/> {location}
           </Typography>
-          <Typography color={icon} marginBottom="5px" sx={{ mt: "2.5rem", mb: "0.6rem", width: "100%", wordWrap: "break-word" }}>
-            <Icon component={Description} sx={{ mb: "-0.3rem", mr:"0.4rem" }}/> {description}
+          <Typography color={icon} marginBottom="5px" sx={{ mt: "3rem", mb: "1rem", wordWrap: "break-word", display: "flex", alignItems: "center" }}>
+            {description}
           </Typography>
         </FlexBetween>
 
-        <Box sx={{ mt: "2rem", display: 'flex', justifyContent: 'center' }}>
+        <Divider sx={{ mt: "1rem", mb: "1rem" }} />
+
+        <Box
+          display="flex"
+          justifyContent="center"
+        >
+          <Button
+            variant="contained"
+            onClick={() => navigate(`/show/${postId}`)}
+          >
+            See the offer
+          </Button>
+        </Box>
+
+        <Divider sx={{ mt: "1rem", mb: "1rem" }} />
+
+        <Box sx={{ mt: "1rem", mb: "0.5rem", display: 'flex', justifyContent: 'center' }}>
           {!isAccepted && !isRefused && (
             <>
               <Button onClick={handleAcceptAppointment} sx={{ color: 'green' }}>
