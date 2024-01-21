@@ -81,21 +81,6 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
           </Typography>
         </Box>
       </FlexBetween>
-
-      {/* Friend button (add/remove friend) */}
-      {!isProfileUser && (
-        <IconButton
-          onClick={() => patchFriend()}
-          sx={{ backgroundColor: primaryLight, p: "0.6rem" }}
-        >
-          {/* Display different icons based on friend status */}
-          {isFriend ? (
-            <PersonRemoveOutlined sx={{ color: primaryDark }} />
-          ) : (
-            <PersonAddOutlined sx={{ color: primaryDark }} />
-          )}
-        </IconButton>
-      )}
     </FlexBetween>
   );
 };

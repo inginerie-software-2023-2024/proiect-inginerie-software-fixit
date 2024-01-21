@@ -11,3 +11,8 @@ body,
 #myid{
   color:aqua;
 }
+
+.custom-intro-tooltip {
+  color: black; 
+  background-color: white; 
+}

@@ -86,6 +86,25 @@ export const getPost = async (req, res) => {
   }
 };
 
+export const getPostUser = async (req, res) => {
+  try {
+    // Extract the user ID from the request params
+    const { postId } = req.params;
+
+    // Retrieve all posts associated with the user ID
+    const post = await Post.findById(postId);
+
+    const userId = post.userId;
+    const user = await User.findById(userId);
+    console.log(user);
+    // Respond with the list of user posts
+    res.status(200).json(user);
+  } catch (err) {
+    // Handle any errors that occur during retrieval of user posts
+    res.status(404).json({ message: err.message });
+  }
+};
+
 /* UPDATE */
 export const likePost = async (req, res) => {
   try {

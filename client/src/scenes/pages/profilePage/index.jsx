@@ -9,10 +9,14 @@ import FriendListWidgetProfile from "scenes/widgets/friendListWidgets/FriendList
 import PostsWidget from "scenes/widgets/postWidgets/PostsWidget";
 import UserWidget from "scenes/widgets/UserWidget";
 import TipsWidget from "scenes/widgets/tipWidgets/TipsWidget";
+import AppointmentsWidget from "scenes/widgets/AppointmentsWidget";
+import AppointmentsWidgetMaster from "scenes/widgets/AppointmentsWidgetMaster";
+
 
 const ProfilePage = () => {
   // State to store the user data
   const [user, setUser] = useState(null);
+  const [isClient, setIsClient] = useState(false);
 
   // Get the userId from the URL parameters
   const { userId } = useParams();
@@ -37,11 +41,9 @@ const ProfilePage = () => {
 
   const [posts, setPostsState] = useState([]);
   const hasPosts = posts.length > 0;
-  console.log(posts);
 
   const [tips, setTipsState] = useState([]);
   const hasTips = tips.length > 0;
-  console.log(tips);
 
   // Function to fetch user data from the server
   const getUser = async () => {
@@ -51,6 +53,7 @@ const ProfilePage = () => {
     });
     const data = await response.json();
     setUser(data);
+    setIsClient(data.isClient);
   };
 
   // Function to fetch user-specific posts
@@ -65,7 +68,7 @@ const ProfilePage = () => {
       );
       const data = await response.json();
       const reversedData = data.reverse(); // Sort the data in reverse order
-      dispatch(setPosts({ posts: reversedData }));
+      //dispatch(setPosts({ posts: reversedData }));
       setPostsState(reversedData);
     } catch (error) {
       console.error("Failed to fetch user posts:", error);
@@ -82,7 +85,6 @@ const ProfilePage = () => {
         }
       );
       const data = await response.json();
-      console.log(data);
       const reversedData = data.reverse(); // Sort the data in reverse order
       dispatch(setTips({ tips: reversedData }));
       setTipsState(reversedData);
@@ -121,6 +123,13 @@ const ProfilePage = () => {
             <Box m="2rem 0" />
             {/* Render the friend list widget component */}
             <FriendListWidgetProfile userId={userId} />
+
+            <Box m="2rem 0" />
+            {/* Render the friend list widget component */}
+            {isProfileUser && isClient&&
+            <AppointmentsWidget userId={userId} />}
+            {isProfileUser && !isClient&&
+            <AppointmentsWidgetMaster userId={userId} />}
 
             {hasTips && (
               <Box widht="100%">
@@ -173,6 +182,13 @@ const ProfilePage = () => {
             {/* Render the friend list widget component */}
             <FriendListWidgetProfile userId={userId} />
 
+            <Box m="2rem 0" />
+            {/* Render the friend list widget component */}
+            {isProfileUser && isClient&&
+            <AppointmentsWidget userId={userId} />}
+            {isProfileUser && !isClient&&
+            <AppointmentsWidgetMaster userId={userId} />}
+
             <Typography color={main} variant="h5" align="center" style={{ marginTop: "3rem", marginBottom: "3rem", fontSize: "1.2rem", fontWeight: "bold" }}>
               Recommendations
             </Typography>
@@ -207,10 +223,17 @@ const ProfilePage = () => {
                 {/* Render the user widget component */}
                 <UserWidget userId={userId} picturePath={user.picturePath} />
 
-                <Box m="2rem 0" />
+                <Box m="2rem 0"/>
                 {/* Render the friend list widget component */}
 
-                <FriendListWidgetProfile userId={userId} />
+                <FriendListWidgetProfile userId={userId}/>
+
+                <Box m="2rem 0" />
+                {/* Render the friend list widget component */}
+                {isProfileUser && isClient&&
+                <AppointmentsWidget userId={userId} />}
+                {isProfileUser && !isClient&&
+                <AppointmentsWidgetMaster userId={userId} />}
               </Box>
           </Box>
       )}

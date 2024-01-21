@@ -7,6 +7,8 @@ const initialState = {
   posts: [],
   reviews:[],
   tips: [],
+  appointments: [],
+  dateAppointments: [],
 };
 
 export const authSlice = createSlice({
@@ -37,6 +39,12 @@ export const authSlice = createSlice({
     setReviews: (state, action) => {
       state.reviews = action.payload.reviews;
     },
+    setAppointments: (state, action) => {
+      state.appointments = action.payload.appointments;
+    },
+    setDateAppointments:(state, action) =>{
+      state.dateAppointments=action.payload.dateAppointments;
+    },
     setPost: (state, action) => {
       const updatedPosts = state.posts.map((post) => {
         if (post._id === action.payload.post._id) return action.payload.post;
@@ -49,6 +57,9 @@ export const authSlice = createSlice({
     },
     setCategory: (state, action) => {
       state.category = action.payload.category;
+    },
+    setFilter: (state, action) => {
+      state.filter = action.payload.filter;
     },
     setSearchQuery: (state, action) => {
       state.searchQuery = action.payload.searchQuery;
@@ -67,7 +78,7 @@ export const authSlice = createSlice({
   },
 });
 
-export const { setMode, setLogin, setLogout, setFriends, setPosts, setPost, setUser, setReviews, setCategory,
-  setSearchQuery, setTips, setTip } =
+export const { setMode, setLogin, setLogout, setFriends, setPosts, setPost, setUser, setReviews, setCategory, setFilter,
+  setSearchQuery, setTips, setTip, setDateAppointments, setAppointments } =
   authSlice.actions;
 export default authSlice.reducer;

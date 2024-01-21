@@ -5,7 +5,8 @@ import {
   likePost,
   createPost,
   getPost,
-  deletePost,// Import the new controller function
+  deletePost,
+  getPostUser,// Import the new controller function
 } from "../controllers/posts.js";
 import { verifyToken } from "../middleware/auth.js";
 
@@ -15,6 +16,7 @@ const router = express.Router();
 router.get("/", verifyToken, getFeedPosts);
 router.get("/:userId/posts", verifyToken, getUserPosts);
 router.get("/:postId", verifyToken, getPost);
+router.get("/:postId/user", verifyToken, getPostUser);
 
 /* UPDATE */
 router.patch("/:id/like", verifyToken, likePost);
