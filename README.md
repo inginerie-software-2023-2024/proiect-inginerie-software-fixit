@@ -38,12 +38,7 @@ trustworthy. Now, with our application, you can see the reviews of the workers t
 <br>
 
 # User Stories
-- [User Stories](https://github.com/inginerie-software-2023-2024/proiect-inginerie-software-fixit/wiki/User-Stories)
-
-<br>
-
-# Backlog
-- [Backlog](https://github.com/users/maraneagu/projects/1/views/1)
+- [User Stories](https://github.com/maraneagu/FixIT-IS/wiki/User-Stories)
 
 <br>
 
@@ -77,7 +72,7 @@ trustworthy. Now, with our application, you can see the reviews of the workers t
 
 
 <div align="center">
-    <i> User Journey Map </i>
+    <i> Use Case Diagram </i>
 </div>
 
 

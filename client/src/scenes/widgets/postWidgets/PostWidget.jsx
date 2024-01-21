@@ -6,6 +6,9 @@ import {
 } from "@mui/icons-material";
 import EditIcon from "@mui/icons-material/Edit";
 import ClassIcon from "@mui/icons-material/Class";
+import ReviewsIcon from '@mui/icons-material/Reviews';
+import { PersonAddOutlined, PersonRemoveOutlined } from "@mui/icons-material";
+import { setFriends } from "state";
 import {
   Box,
   Divider,
@@ -24,7 +27,7 @@ import {
 import FlexBetween from "components/FlexBetween";
 import Friend from "components/Friend";
 import WidgetWrapper from "components/WidgetWrapper";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPost } from "state";
 import { setPosts } from "state";
@@ -51,11 +54,17 @@ const PostWidget = ({
   const [reviewDescription, setReviewDescription] = useState(""); // State for review description
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false); // State for delete confirmation dialog
 
+  const [reviewAverage, setReviewAverage] = useState(0);
+  const [noReviews, setNoReviews] = useState(0);
+  const [reviews, setReviewsState] = useState([]);
+
   // Utility hooks
   const { palette } = useTheme();
   const main = palette.neutral.main;
   const medium = palette.neutral.medium;
   const primary = palette.primary.main;
+  const primaryLight = palette.primary.light;
+  const primaryDark = palette.primary.dark;
 
   const location2 = useLocation();
   const isHomePage = location2.pathname === "/home";
@@ -70,6 +79,14 @@ const PostWidget = ({
   const isLiked = Boolean(likes[loggedInUserId]);
   const likeCount = Object.keys(likes).length;
 
+  // Get the current user's friends list
+  const friends = useSelector((state) => state.user.friends);
+
+    // Check if the current friend is in the user's friends list
+  const isFriend = friends.find((friend) => friend._id === postUserId);
+
+ 
+
   // Function to handle the like action on the post
   const patchLike = async () => {
     const response = await fetch(`http://localhost:3001/posts/${postId}/like`, {
@@ -82,6 +99,32 @@ const PostWidget = ({
     });
     const updatedPost = await response.json();
     dispatch(setPost({ post: updatedPost }));
+  };
+
+
+  const getPostReviews = async () => {
+    const response = await fetch(
+      `http://localhost:3001/reviews/${postId}/postReviews`,
+      {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    const data = await response.json();
+    setReviewsState(data);
+
+    var stars = 0;
+    for (var i in data)
+    { var obj = data[i];
+      stars += parseInt(obj["stars"]);
+    }
+
+    var average = (stars / data.length).toFixed(1);
+
+    setReviewAverage(average);
+    setNoReviews(data.length);
+
+    console.log("medie: ", average);
   };
 
   const handleReviewDialogOpen = () => {
@@ -162,40 +205,108 @@ const PostWidget = ({
     }
   };
 
+    // Patch friend status when the button is clicked
+  const patchFriend = async () => {
+    const response = await fetch(
+      `http://localhost:3001/users/${loggedInUserId}/${postUserId}`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const data = await response.json();
+    dispatch(setFriends({ friends: data }));
+  };
+
+   useEffect(() => {
+    // Fetch the post reviews when the component mounts
+    getPostReviews();
+  }, []);
+
   return (
     <WidgetWrapper
       m="2rem 0"
       ml={isNonMobileScreens ? "15px" : undefined}
       mr={isNonMobileScreens ? "15px" : undefined}
     >
+
+
+        <Friend
+            friendId={postUserId}
+            name={name}
+            subtitle={location}
+            userPicturePath={userPicturePath}
+          />
       {/* Display the friend information */}
-      <Friend
-        friendId={postUserId}
-        name={name}
-        subtitle={location}
-        userPicturePath={userPicturePath}
-      />
+    <FlexBetween gap="1rem" sx={{ width: "100%" }}>
+    {/* Display the like button */}
+        <FlexBetween gap="0.3rem">
+          <Typography
+            color={main}
+            variant="h5"
+            fontWeight="500"
+            sx={{ mt: "1rem", width: "100%", wordWrap: "break-word" }}
+          >
+            {title}
+          </Typography>
+        </FlexBetween>
+
+        <FlexBetween gap="0.7rem">
+
+          {
+            noReviews ?           
+            <Box 
+          bgcolor={primary}
+          borderRadius = "5px"
+          sx={{height:"25px", width:"45px", paddingRight:"12px", paddingTop:"2.5px"}}>
+            <Typography
+            color={main}
+            variant="h7"
+            fontWeight="bold"
+          sx={{ display: "flex", justifyContent: "flex-end", width: "100%", wordWrap: "break-word", alignItems: "center" }}
+          >
+        {reviewAverage}
+          </Typography>
+          </Box> : null
+          }
+        </FlexBetween>
+      </FlexBetween>
 
       {/* Display the post title */}
-      <Typography
-        color={main}
-        variant="h5"
-        fontWeight="500"
-        sx={{ mt: "1rem", width: "100%", wordWrap: "break-word" }}
-      >
-        {title}
-      </Typography>
 
-      {/* Display the post category */}
-      <Typography
-        color={medium}
-        display="flex"
-        alignItems="center"
-        sx={{ mt: "1.3rem", mb: "5px" }}
-      >
-        <ClassIcon sx={{ color: main, mr: "8px" }} />
-        {category ? category.charAt(0).toUpperCase() + category.slice(1) : ""}
-      </Typography>
+      <FlexBetween gap="1rem" sx={{ width: "100%" }}>
+        <FlexBetween gap="0.3rem">
+            {/* Display the post category */}
+            <Typography
+              color={medium}
+              display="flex"
+              alignItems="center"
+              sx={{ mt: "1.3rem", mb: "5px" }}
+            >
+              <ClassIcon sx={{ color: main, mr: "8px" }} />
+              {category ? category.charAt(0).toUpperCase() + category.slice(1) : ""}
+            </Typography>
+        </FlexBetween>
+
+        <FlexBetween gap="0.3rem" sx = {{cursor: "pointer"}} onClick={() => {
+          navigate(`/show/${postId}`)
+          navigate(0)}}
+        >
+            <ReviewsIcon></ReviewsIcon>
+            <Typography
+              color={main}
+              variant="h6"
+              fontWeight="300"
+              sx={{ display: "flex", justifyContent: "flex-end", width: "100%", wordWrap: "break-word", alignItems: "center" }}
+            >
+              {noReviews} reviews
+            </Typography>
+        </FlexBetween>
+      </FlexBetween>
+
 
       {/* Display the post picture */}
       {picturePath && (
@@ -210,8 +321,10 @@ const PostWidget = ({
 
       <Divider sx={{ mt: "1rem", mb: "1rem" }} />
 
+     
+
       <FlexBetween mt="0.25rem">
-        <FlexBetween gap="1rem">
+        <FlexBetween gap="1rem" sx={{ width: "100%" }}>
           {/* Display the like button */}
           <FlexBetween gap="0.3rem">
             <IconButton onClick={patchLike}>
@@ -227,17 +340,35 @@ const PostWidget = ({
           <FlexBetween gap="0.3rem">
             {/* Display the review button */}
             {user.isClient === true && (
-              <IconButton onClick={handleReviewDialogOpen}>
+              <IconButton 
+                onClick={handleReviewDialogOpen}
+                disabled={reviews.some(review => review.userId === loggedInUserId)}
+              >
                 <ChatBubbleOutlineOutlined />
+                <Typography sx={{ ml:"0.2rem "}}>
+                  Add Review
+                </Typography>
               </IconButton>
             )}
-            {user.isClient === true && <Typography>Add Review</Typography>}
           </FlexBetween>
-        </FlexBetween>
 
-        <Box>
-          {/* Display the edit button for the profile user */}
-          {isProfileUser && (
+                {/* Friend button (add/remove friend) */}
+          <FlexBetween gap="0.7rem">
+            {!isProfileUser && (
+                    <IconButton
+                      onClick={() => patchFriend()}
+                      sx={{ backgroundColor: primaryLight, p: "0.6rem" }}
+                    >
+                      {/* Display different icons based on friend status */}
+                      {isFriend ? (
+                        <PersonRemoveOutlined sx={{ color: primaryDark }} />
+                      ) : (
+                        <PersonAddOutlined sx={{ color: primaryDark }} />
+                      )}
+                    </IconButton>
+                  )}
+
+              {isProfileUser && (
             <IconButton
               onClick={() => navigate(`/editpost/${postId}`)}
               sx={{
@@ -255,7 +386,13 @@ const PostWidget = ({
               <DeleteOutlined />
             </IconButton>
           )}
-        </Box>
+          </FlexBetween>
+
+          
+      
+        </FlexBetween>
+
+        
       </FlexBetween>
 
       <Divider sx={{ mt: "1rem", mb: "1rem" }} />

@@ -13,6 +13,7 @@ import userRoutes from "./routes/users.js";
 import postRoutes from "./routes/posts.js";
 import reviewRoutes from "./routes/reviews.js";
 import tipRoutes from "./routes/tips.js";
+import appointmentRoutes from "./routes/appointments.js";
 
 import { register } from "./controllers/auth.js";
 import { createPost } from "./controllers/posts.js";
@@ -89,13 +90,13 @@ app.post(
   editTip
 );
 
-
 /* ROUTES */
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
 app.use("/posts", postRoutes);
 app.use("/reviews", reviewRoutes);
 app.use("/tips", tipRoutes);
+app.use("/appointments", appointmentRoutes);
 
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 6001;
