@@ -27,8 +27,7 @@ jobs:
     - name: Install client dependencies
       run: npm install
 
-    - name: Build client
-      run: npm run build
+
 
   build-server:
     runs-on: ubuntu-latest
