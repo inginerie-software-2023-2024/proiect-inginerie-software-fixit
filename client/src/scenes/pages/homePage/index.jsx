@@ -62,11 +62,11 @@ const HomePage = () => {
     <Box>
       {/* Rendering the navbar component */}
       <Navbar />
-      <Box sx={{ marginLeft: 110, marginTop:3  }}>
-      <Button onClick={handleStartTutorial} variant="contained" color="primary">
-        Start Tutorial
-      </Button>
-    </Box>
+      <Box sx={{ marginLeft: 97, marginTop:3  }}>
+        <Button onClick={handleStartTutorial} variant="contained" color="primary">
+          Start Tutorial
+        </Button>
+      </Box>
       <Box
         width="100%"
         padding="2rem 6%"
