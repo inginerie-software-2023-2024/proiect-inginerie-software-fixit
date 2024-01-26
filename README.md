@@ -16,6 +16,12 @@ trustworthy. Now, with our application, you can see the reviews of the workers t
 
 <br>
 
+# Software Architecture Report
+
+https://docs.google.com/document/d/1hVXitoXrojEzeVc0HDQpT_OcOzeuTL3YuohTSd9RKWo/edit?usp=sharing
+
+<br>
+
 # Contributors
 - [David Bojneagu](https://github.com/DBojneagu)
 - [Elena Georgescu](https://github.com/elenaag23)
