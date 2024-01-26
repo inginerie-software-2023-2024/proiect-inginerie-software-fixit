@@ -18,7 +18,15 @@ trustworthy. Now, with our application, you can see the reviews of the workers t
 
 # Software Architecture Report
 
-https://docs.google.com/document/d/1hVXitoXrojEzeVc0HDQpT_OcOzeuTL3YuohTSd9RKWo/edit?usp=sharing
+[Software Architecture Report](https://docs.google.com/document/d/1hVXitoXrojEzeVc0HDQpT_OcOzeuTL3YuohTSd9RKWo/edit?usp=sharing)
+
+<br>
+
+# Sprint Reports
+
+- [Sprint 4 Report](https://docs.google.com/document/d/1hVXitoXrojEzeVc0HDQpT_OcOzeuTL3YuohTSd9RKWo/edit?usp=sharing)
+- [Sprint 5 Report](https://docs.google.com/document/d/1hVXitoXrojEzeVc0HDQpT_OcOzeuTL3YuohTSd9RKWo/edit?usp=sharing)
+- [Sprint Sesiune Report](https://docs.google.com/document/d/1hVXitoXrojEzeVc0HDQpT_OcOzeuTL3YuohTSd9RKWo/edit?usp=sharing)
 
 <br>
 
