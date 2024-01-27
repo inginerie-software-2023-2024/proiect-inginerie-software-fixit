@@ -81,7 +81,7 @@ trustworthy. Now, with our application, you can see the reviews of the workers t
 <br>
 
 <div align="center">
-    <img src="https://github.com/maraneagu/FixIT-MERN/assets/101595151/f412fdb7-9139-4317-9e32-213a2c007791" alt="image" width="600px">
+    <img src="https://github.com/inginerie-software-2023-2024/proiect-inginerie-software-fixit/assets/101595151/9d74d936-1ffc-4748-afa5-170a76889b9d" alt="image" width="600px">
 </div>
 
 
