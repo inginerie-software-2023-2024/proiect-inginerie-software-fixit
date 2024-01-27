@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setPosts, setCategory, setSearchQuery, setFilter } from "state";
+import { setPosts, setCategory, setSearchQuery, setFilter ,sortMode} from "state";
 import PostWidget from "./PostWidget";
 import PostWidgetProfile from "./PostWidgetProfile";
 
@@ -18,6 +18,10 @@ const PostsWidget = ({ userId, isProfile = false }) => {
   // Get the token from the Redux store
   const token = useSelector((state) => state.token);
   const filter = useSelector((state) => state.filter);
+  const sortMode = useSelector((state) => state.sortMode);
+  const loggedInUserId = useSelector((state) => state.user._id);
+  const friends = useSelector((state) => state.user.friends);
+
 
   // Function to fetch all posts
   const getPosts = async () => {
@@ -80,7 +84,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
     var average = stars / data.length;
     return average;
   };
-
+  
   useEffect(() => {
     setLoading(true); // Set loading state to true before fetching data
     if (isProfile) {
@@ -89,8 +93,41 @@ const PostsWidget = ({ userId, isProfile = false }) => {
       getPosts();
     }
   }, [isProfile, userId]); // Include isProfile and userId as dependencies
-
+  const sortPostsByFriendReviews = async (filteredPosts, loggedInUserId) => {
+    const promises = filteredPosts.map(async (post) => {
+      console.log("aici2");
+      // Fetch reviews for the current post
+      const postReviews = await fetchPostReviews(post._id);
+      console.log(postReviews);
+      // Check if one of the logged-in user's friends made a review for the post
+      
+      //const hasFriendReview = postReviews.some((review) => review.userId === loggedInUserId);
+      const hasFriendReview = postReviews.some((review) => friends.some((friend) => friend._id === review.userId));
+      return { ...post, hasFriendReview }; // Attach the friend review status to the post
+    });
+    console.log("aici3");
+    const postsWithFriendReview = await Promise.all(promises);
+  
+    // Sort the posts based on friend review status
+    const sortedPosts = postsWithFriendReview.sort((postA, postB) => {
+      return postB.hasFriendReview - postA.hasFriendReview;
+    });
+  
+    return sortedPosts;
+  };
+  
+  const fetchPostReviews = async (postId) => {
+    console.log("aici4");
+    const response = await fetch(`http://localhost:3001/reviews/${postId}/postReviews`, {
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const data = await response.json();
+    return data;
+  };
+  
   useEffect(() => {
+    
     let filteredPosts = allPosts;
 
     if (searchQuery) {
@@ -103,8 +140,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
 
     if (category) {
       filteredPosts = filteredPosts.filter((post) => post.category === category);
-    }
-
+    } 
     if(filter)
     {
       const sortPostsByAverage = async (filteredPosts) => {
@@ -128,8 +164,16 @@ const PostsWidget = ({ userId, isProfile = false }) => {
         setPostsState(sortedPosts);
       });
   }
+  if (sortMode) {
+    console.log("true");
+    sortPostsByFriendReviews(filteredPosts, loggedInUserId).then((sortedPosts) => {
+      console.log("Sorted posts by friend reviews: ", sortedPosts);
+      setPostsState(sortedPosts);
+    });
+  }
+  
     setPostsState(filteredPosts);
-  }, [searchQuery, category, allPosts, filter]);
+  }, [searchQuery, category, allPosts, filter, sortMode]);
 
   if (loading) {
     return (

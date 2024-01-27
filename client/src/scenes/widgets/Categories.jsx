@@ -4,7 +4,7 @@ import Category from "components/Category";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setCategory, setFilter } from "state";
+import { setCategory, setFilter, sortMode } from "state";
 
 const Categories = () => {
   // Check if the screen is a non-mobile screen using MUI's useMediaQuery hook
@@ -13,6 +13,7 @@ const Categories = () => {
   const dispatch = useDispatch();
   const [selectedCategory, setSelectedCategory] = useState(null); // Track the currently selected category
   const [selectedFilter, setSelectedFilter] = useState(false);
+  const [selectedsortMode, setSelectedsortMode] = useState(false);
 
   const { palette } = useTheme();
   const main = palette.neutral.main;
@@ -30,6 +31,11 @@ const Categories = () => {
   const filterByReviews = () => 
   { dispatch(setFilter({ filter: !selectedFilter })); // Dispatch an action to update the selected category in Redux store
     setSelectedFilter(!selectedFilter);
+  };
+  const sortModeF = () => 
+  { dispatch(sortMode({ sortMode: !selectedsortMode })); // Dispatch an action to update the selected category in Redux store
+    setSelectedsortMode(!selectedsortMode);
+    console.log("aici1");
   };
 
   return (
@@ -73,7 +79,14 @@ const Categories = () => {
         }}>
             Filter by reviews
         </Button>
+        <Button onClick={() => sortModeF()} style={{
+          backgroundColor: selectedsortMode ? primary : "",
+          color: selectedsortMode ? main : primary, // Text color
+        }}>
+            Reviewed by friends
+        </Button>
       </Box>
+      
       
 
     </WidgetWrapper> 
