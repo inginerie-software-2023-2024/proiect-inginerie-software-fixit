@@ -81,6 +81,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
           </Typography>
         </Box>
       </FlexBetween>
+      
     </FlexBetween>
   );
 };

@@ -84,6 +84,7 @@ const PostWidget = ({
 
     // Check if the current friend is in the user's friends list
   const isFriend = friends.find((friend) => friend._id === postUserId);
+  const hasFriendReview = reviews.some((review) => friends.some((friend) => friend._id === review.userId));
 
  
 
@@ -290,7 +291,19 @@ const PostWidget = ({
               {category ? category.charAt(0).toUpperCase() + category.slice(1) : ""}
             </Typography>
         </FlexBetween>
-
+        {hasFriendReview && (
+          <Box sx={{ fontSize: '1.2rem', fontWeight: 'bold', marginTop: '0.5rem' }}>
+          
+          <Typography
+              color={primary}
+              variant="h6"
+              fontWeight="300"
+              sx={{ display: "flex", justifyContent: "flex-end", width: "100%", wordWrap: "break-word", alignItems: "center" }}
+            >
+              Reviewed by a friend
+            </Typography>
+        </Box>
+        )}
         <FlexBetween gap="0.3rem" sx = {{cursor: "pointer"}} onClick={() => {
           navigate(`/show/${postId}`)
           navigate(0)}}

@@ -61,6 +61,9 @@ export const authSlice = createSlice({
     setFilter: (state, action) => {
       state.filter = action.payload.filter;
     },
+    sortMode: (state, action) => {
+      state.sortMode = action.payload.sortMode;
+    },
     setSearchQuery: (state, action) => {
       state.searchQuery = action.payload.searchQuery;
     },
@@ -79,6 +82,6 @@ export const authSlice = createSlice({
 });
 
 export const { setMode, setLogin, setLogout, setFriends, setPosts, setPost, setUser, setReviews, setCategory, setFilter,
-  setSearchQuery, setTips, setTip, setDateAppointments, setAppointments } =
+  setSearchQuery, setTips, setTip, setDateAppointments, setAppointments,sortMode } =
   authSlice.actions;
 export default authSlice.reducer;

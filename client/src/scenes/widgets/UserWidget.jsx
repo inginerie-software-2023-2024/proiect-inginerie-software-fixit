@@ -1,5 +1,5 @@
 import { LocationOnOutlined } from "@mui/icons-material";
-import { Box, Typography, Divider, useTheme } from "@mui/material";
+import { Box, Typography, Divider, useTheme,IconButton } from "@mui/material";
 import UserImage from "components/UserImage";
 import FlexBetween from "components/FlexBetween";
 import WidgetWrapper from "components/WidgetWrapper";
@@ -11,19 +11,27 @@ import PsychologyAltIcon from "@mui/icons-material/PsychologyAlt";
 import EditIcon from "@mui/icons-material/Edit";
 import BuildIcon from "@mui/icons-material/Build";
 import Friend from "components/Friend";
+import { useDispatch } from "react-redux";
+import { setFriends } from "state";
+
+import { PersonAddOutlined, PersonRemoveOutlined } from "@mui/icons-material";
 
 const UserWidget = ({ userId, picturePath }) => {
   // State and selector hooks
   const [user, setUser] = useState(null);
   const loggedInUserId = useSelector((state) => state.user._id);
   const isProfileUser = userId === loggedInUserId;
-
+  const dispatch = useDispatch();
   // Theme customization
   const { palette } = useTheme();
   const dark = palette.neutral.dark;
   const medium = palette.neutral.medium;
   const main = palette.neutral.main;
-
+  const primary = palette.primary.main;
+  const primaryLight = palette.primary.light;
+  const primaryDark = palette.primary.dark;
+  const friendsme = useSelector((state) => state.user.friends);
+  const isFriend = friendsme.find((friend) => friend._id === userId);
   // Navigation hook
   const navigate = useNavigate();
 
@@ -42,7 +50,20 @@ const UserWidget = ({ userId, picturePath }) => {
     const data = await response.json();
     setUser(data);
   };
-
+  const patchFriend = async () => {
+    const response = await fetch(
+      `http://localhost:3001/users/${loggedInUserId}/${userId}`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const data = await response.json();
+    dispatch(setFriends({ friends: data }));
+  };
   useEffect(() => {
     // Call getUser() when the component mounts
     getUser();
@@ -107,7 +128,6 @@ const UserWidget = ({ userId, picturePath }) => {
           
         </FlexBetween>
         ):(
-          // Render the Friend component for non-profile users
           <Friend
               key={userId}
               friendId={userId}
@@ -119,11 +139,23 @@ const UserWidget = ({ userId, picturePath }) => {
         )}
         {isProfileUser ?(<Divider />):
               (<Divider sx={{
-                marginTop:"15px"
+                marginTop:"15px",
+                marginBottom:"15px"
               }}/>)}
         
-
-        {/* SECOND ROW */}
+        {!isProfileUser && (
+                    <IconButton
+                      onClick={() => patchFriend()}
+                      sx={{ backgroundColor: primaryLight, p: "0.6rem" }}
+                    >
+                      {/* Display different icons based on friend status */}
+                      {isFriend ? (
+                        <PersonRemoveOutlined sx={{ color: primaryDark }} />
+                      ) : (
+                        <PersonAddOutlined sx={{ color: primaryDark }} />
+                      )}
+                    </IconButton>
+                  )}
         <Box p="1rem 0">
           <Box display="flex" alignItems="center" gap="1rem" mb="0.5rem">
             <LocationOnOutlined fontSize="large" sx={{ color: main }} />
@@ -205,9 +237,21 @@ const UserWidget = ({ userId, picturePath }) => {
 
         {isProfileUser ?(<Divider />):
               (<Divider sx={{
-                marginTop:"15px"
+                marginTop:"15px",
+                marginBottom:"15px"
               }}/>)}
-
+          {!isProfileUser && (
+                    <IconButton
+                      onClick={() => patchFriend()}
+                      sx={{ backgroundColor: primaryLight, p: "0.6rem" }}
+                    >
+                      {isFriend ? (
+                        <PersonRemoveOutlined sx={{ color: primaryDark }} />
+                      ) : (
+                        <PersonAddOutlined sx={{ color: primaryDark }} />
+                      )}
+                    </IconButton>
+                  )}
         {/* SECOND ROW */}
         <Box p="1rem 0">
           <Box display="flex" alignItems="center" gap="1rem" mb="0.5rem">
