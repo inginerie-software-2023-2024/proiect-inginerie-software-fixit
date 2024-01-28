@@ -26,7 +26,7 @@ trustworthy. Now, with our application, you can see the reviews of the workers t
 
 - [Sprint 4 Report](https://github.com/inginerie-software-2023-2024/proiect-inginerie-software-fixit/blob/main/Sprint%204%20Report.pdf)
 - [Sprint 5 Report](https://github.com/inginerie-software-2023-2024/proiect-inginerie-software-fixit/blob/main/Sprint%205%20Report.pdf)
-- [Sprint Sesiune Report](https://github.com/inginerie-software-2023-2024/proiect-inginerie-software-fixit/blob/main/Sprint%20Sesiune%20Report.pdf)
+- [Sprint Sesiune Report](https://github.com/inginerie-software-2023-2024/proiect-inginerie-software-fixit/blob/main/Sprint%20Sesiune.pdf)
 
 <br>
 
