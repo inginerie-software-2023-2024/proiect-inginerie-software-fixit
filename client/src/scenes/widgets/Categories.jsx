@@ -29,13 +29,22 @@ const Categories = () => {
   };
 
   const filterByReviews = () => 
-  { dispatch(setFilter({ filter: !selectedFilter })); // Dispatch an action to update the selected category in Redux store
+  {
+    if(selectedsortMode){
+      dispatch(sortMode({ sortMode: !selectedsortMode })); // Dispatch an action to update the selected category in Redux store
+      setSelectedsortMode(!selectedsortMode);
+    }
+     dispatch(setFilter({ filter: !selectedFilter })); // Dispatch an action to update the selected category in Redux store
     setSelectedFilter(!selectedFilter);
   };
   const sortModeF = () => 
-  { dispatch(sortMode({ sortMode: !selectedsortMode })); // Dispatch an action to update the selected category in Redux store
+  {
+    if(selectedFilter){
+      dispatch(setFilter({ filter: !selectedFilter })); // Dispatch an action to update the selected category in Redux store
+      setSelectedFilter(!selectedFilter);
+    }
+    dispatch(sortMode({ sortMode: !selectedsortMode })); // Dispatch an action to update the selected category in Redux store
     setSelectedsortMode(!selectedsortMode);
-    console.log("aici1");
   };
 
   return (
