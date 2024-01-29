@@ -9,9 +9,9 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.min.js'
-import axios from "axios";
 import WidgetWrapper from "components/WidgetWrapper";
 
+const axios = require('axios/dist/browser/axios.cjs');
 
 const TipsPage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)"); // Check if the screen width is greater than 1000px
