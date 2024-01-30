@@ -7,11 +7,11 @@ import { Button, Typography } from "@mui/material";
 import React from 'react';
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'bootstrap/dist/js/bootstrap.min.js'
-import axios from "axios";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.min.js';
 import WidgetWrapper from "components/WidgetWrapper";
 
+// const axios = require('axios/dist/browser/axios.cjs');
 
 const TipsPage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)"); // Check if the screen width is greater than 1000px
@@ -26,12 +26,40 @@ const TipsPage = () => {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
 
-  async function handleSubmit(evt){
+  // async function handleSubmit(evt){
+  //   evt.preventDefault();
+  //   const data = await axios.post(`http://localhost:3001/tips/${question}`);
+  //   console.log(JSON.stringify(data));
+  //   setAnswer(data.data);
+  // }
+
+  async function handleSubmit(evt) {
+
     evt.preventDefault();
-    const data = await axios.post(`http://localhost:3001/tips/${question}`);
-    console.log(JSON.stringify(data));
-    setAnswer(data.data);
+  
+    try {
+      const response = await fetch(`http://localhost:3001/tips/${question}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        // If you need to send any data in the request body, you can include a body property:
+        // body: JSON.stringify(yourDataObject),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      const data = await response.json();
+      console.log(JSON.stringify(data));
+      setAnswer(data);
+    } catch (error) {
+      console.error('Error:', error.message);
+      // Handle the error as needed
+    }
   }
+  
 
   return ( 
     <Box>
