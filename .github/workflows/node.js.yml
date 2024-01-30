@@ -27,6 +27,9 @@ jobs:
     - name: Install client dependencies
       run: npm install
 
+    - name: Change directory to client
+      run: cd client
+      
     - name: Run client tests
       run: npm test
 
