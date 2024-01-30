@@ -25,6 +25,7 @@ jobs:
       run: |
         cd client
         npm install
+        npm install --save-dev @babel/plugin-proposal-private-property-in-object --legacy-peer-deps
         npm test | grep -q "Press \`a\` to run all tests" && echo "a" | npm test
 
 
