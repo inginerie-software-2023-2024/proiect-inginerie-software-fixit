@@ -241,6 +241,19 @@ The "Create a tip" form uses a title, description, category and a Youtube link t
 
 ![WhatsApp Image 2023-06-15 at 1 02 43 PM](https://github.com/maraneagu/FixIT-MERN/assets/101599503/4e982c83-f55f-4caa-83e5-61adf4441ab4)
 
+## FixIT Assistant
+
+<br>
+
+On the Tips Page, there is a FixIT Assistant, an AI-generated assistant that is able to answer simple questions about house maintanance and other various topics.
+<br>
+
+<div>
+    <img src="https://github.com/maraneagu/FixIT-IS/assets/93272424/a21d8ada-fa5c-4a1a-a656-655209175fa2" alt="image" width="1000px">
+</div>
+
+<br>
+
 ## Reviews
 
 <br>
@@ -280,11 +293,21 @@ In the ShowPost, you can add an appointment to a specific post. It can be create
 
 <br>
 
+Afterwards, as a master you are able to view all of your appointments: accepted, pending and refused.
+
+<br>
+
+<div>
+    <img src="https://github.com/maraneagu/FixIT-IS/assets/93272424/a5344f3b-e07f-4f8b-9be7-5ec2e34a820b" alt="image" width="1000px">
+</div>
+
+<br>
+
 # Non-Functional Requirements
 
 - Appointments between a master and a client;
 - Recommandations for different masters based on your friend list;
 - ChatGPT integration to transform different messages in a specific way: more serious, more formal, more informal etc.
-- Product Tool
+- Product Tour
 
 
