@@ -21,17 +21,11 @@ jobs:
       with:
         node-version: '14'
 
-    - name: Change directory to client
-      run: cd client
-
-    - name: Install client dependencies
-      run: npm install
-
-    - name: Change directory to client
-      run: cd client
-      
-    - name: Run client tests
-      run: npm test
+    - name: Install dependencies and run tests
+      run: |
+        cd client
+        npm install
+        npm test | grep -q "Press \`a\` to run all tests" && echo "a" | npm test
 
 
 
