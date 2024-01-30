@@ -266,6 +266,20 @@ Create a review pop-up:
 
 <br>
 
+## Appointments
+
+<br>
+
+In the ShowPost, you can add an appointment to a specific post. It can be created and deleted through pop-up windows.
+
+<br>
+
+<div>
+    <img src="https://github.com/maraneagu/FixIT-IS/assets/93272424/323ea70d-ebc0-40e4-bf68-33911c3f9761" alt="image" width="1000px">
+</div>
+
+<br>
+
 # Non-Functional Requirements
 
 - Appointments between a master and a client;
