@@ -91,6 +91,18 @@ trustworthy. Now, with our application, you can see the reviews of the workers t
     <i> Use Case Diagram </i>
 </div>
 
+<br>
+
+<div align="center">
+    <img src="https://github.com/maraneagu/FixIT-MERN/assets/93272424/a3f81a1c-1d0b-40a8-a17c-a0e87ea8a8a6" alt="image" width="600px">
+</div>
+<div align="center">
+    <i> WorkFlow Diagram </i>
+</div>
+
+
+<br>
+
 
 <br>
 
