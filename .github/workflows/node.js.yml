@@ -21,15 +21,13 @@ jobs:
       with:
         node-version: '14'
 
+  
     - name: Install dependencies and run tests
       run: |
         cd client
-        npm install
-        npm install --save-dev @babel/plugin-proposal-private-property-in-object --legacy-peer-deps
-        npm test | grep -q "Press \`a\` to run all tests" && echo "a" | npm test
+        npm install --ignore-scripts
+        npm test
 
-    - name: Exit with success status code
-      run: exit 0  # Exit with success status code
 
 
 
