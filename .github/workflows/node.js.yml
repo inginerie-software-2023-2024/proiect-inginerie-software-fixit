@@ -27,7 +27,7 @@ jobs:
     - name: Install client dependencies
       run: npm install
 
-    - name: Run server tests
+    - name: Run client tests
       run: npm test
 
 
