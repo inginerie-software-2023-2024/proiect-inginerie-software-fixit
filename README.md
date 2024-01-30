@@ -40,7 +40,9 @@ trustworthy. Now, with our application, you can see the reviews of the workers t
 <br>
 
 # Demo
-- [Demo](https://youtu.be/qrWF7znqEJA)
+- [Demo Nou](https://youtu.be/cRGBeG0nk-s)
+
+- [Demo Vechi](https://youtu.be/qrWF7znqEJA)
 
 <br>
 
