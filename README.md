@@ -21,7 +21,8 @@ Vom adauga Feature-ul de 'Salvate', o pagina in care clientul poate vedea postar
 <br>
 
 # Planned  Functionalities
--CRUD pentru Salvari.
+-CRUD pentru Salvari. 
+<br>
 -Afisarea numarului de oameni care au salvat o anumita postare.
 <br>
 
