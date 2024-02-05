@@ -12,8 +12,17 @@
 We are going to present  our fullstack application called <b>FixIT</b>. This application makes the communication between clients and service providers a lot more fluently and efficiently. Through our platform,
 users can create an account and search for specific services that they need. Our special feature is that our application is more like a social-media platform, meaning that our customers
 can add friends. Why would we add that feature? Well, we've thought about it this way: first, when we want to hire someone that we do not know personally we ask a friend, if he/she knows somebody
-trustworthy. Now, with our application, you can see the reviews of the workers that have done projects for your friends, and see how your close ones reviewed them.
+trustworthy. Now, with our application, you can see the reviews of the workers that have done projects for your friends, and see how your close ones reviewed them. This app was designed to be used by craftsmen who want their services to be easily found by potential clients, but also by those who need help from a specialist. We want to simplify the scheduling process for some services by adding an appointment form for each post.
 
+<br>
+
+# Planned Features
+Vom adauga Feature-ul de 'Salvate', o pagina in care clientul poate vedea postarile pe care le-a salvat pentru a avea acces la ele mai rapid, fara a fi nevoit sa caute iarasi postarea in Home Page.
+<br>
+
+# Planned  Functionalities
+-CRUD pentru Salvari.
+-Afisarea numarului de oameni care au salvat o anumita postare.
 <br>
 
 # Software Architecture Report
