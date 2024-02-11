@@ -35,6 +35,13 @@ jobs:
         with:
           node-version: '14'
 
+      - name: Create and inject values into .env file
+        run: |
+          echo "MONGO_URL=${{ secrets.MONGO_URL }}" >> .env
+          echo "PORT=${{ secrets.PORT }}" >> .env
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
+          echo "API_KEY=${{ secrets.API_KEY }}" >> .env
+
       - name: Install bcrypt module
         run: |
           cd server
@@ -47,8 +54,12 @@ jobs:
           cd server
           npm install --ignore-scripts
           npx mocha backend.test.js
-          env:
-            MONGO_URL: ${{ secrets.MONGO_URL }}
-            PORT: ${{secrets.PORT}}
-            JWT_SECRET: ${{secrets.JWT_SECRET}}
-            API_KEY: ${{secrets.API_KEY}}
+        env:
+          MONGO_URL: ${{ secrets.MONGO_URL }}
+          PORT: ${{ secrets.PORT }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          API_KEY: ${{ secrets.API_KEY }}
+
+      - name: Cleanup .env file
+        run: |
+          rm .env
