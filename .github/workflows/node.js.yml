@@ -1,5 +1,3 @@
-name: CI
-
 on:
   push:
     branches:
@@ -11,43 +9,57 @@ on:
 jobs:
   build-client:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '14'
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
 
-  
-    - name: Install dependencies and run tests
-      run: |
-        cd client
-        npm install --ignore-scripts
-        npm test
-
-
-
+      - name: Install dependencies and run tests
+        run: |
+          cd client
+          npm install --ignore-scripts
+          npm test
 
   build-server:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '14'
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
 
-    - name: Change directory to server
-      run: cd server
+      - name: Create and inject values into .env file
+        run: |
+          echo "MONGO_URL=${{ secrets.MONGO_URL }}" >> .env
+          echo "PORT=${{ secrets.PORT }}" >> .env
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
+          echo "API_KEY=${{ secrets.API_KEY }}" >> .env
 
-    - name: Install server dependencies
-      run: npm install
+      - name: Install bcrypt module
+        run: |
+          cd server
+          npm install node-gyp -g
+          npm install bcrypt -g
+          npm install bcrypt --save
 
-    - name: Run server tests
-      run: npm test
+      - name: Install remaining dependencies and run tests
+        run: |
+          cd server
+          npm install --ignore-scripts
+          npx mocha --timeout 5000 backend.test.js
+        env:
+          MONGO_URL: ${{ secrets.MONGO_URL }}
+          PORT: ${{ secrets.PORT }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          API_KEY: ${{ secrets.API_KEY }}
+
+      - name: Cleanup .env file
+        run: |
+          rm .env
