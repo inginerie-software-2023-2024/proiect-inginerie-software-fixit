@@ -50,4 +50,4 @@ jobs:
       run: npm install
 
     - name: Run server tests
-      run: npm test
+      run: npx mocha backend.test.js
