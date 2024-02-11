@@ -49,3 +49,6 @@ jobs:
           npx mocha backend.test.js
           env:
             MONGO_URL: ${{ secrets.MONGO_URL }}
+            PORT: ${{secrets.PORT}}
+            JWT_SECRET: ${{secrets.JWT_SECRET}}
+            API_KEY: ${{secrets.API_KEY}}
