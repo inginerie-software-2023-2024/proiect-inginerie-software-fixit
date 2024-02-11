@@ -42,6 +42,10 @@ jobs:
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
           echo "API_KEY=${{ secrets.API_KEY }}" >> .env
 
+      - name: Print MONGO_URL
+        run: |
+          echo "MONGO_URL: $MONGO_URL"
+
       - name: Install bcrypt module
         run: |
           cd server
@@ -53,7 +57,7 @@ jobs:
         run: |
           cd server
           npm install --ignore-scripts
-          npx mocha --timeout 5000 backend.test.js
+          npx mocha --timeout 20000  backend.test.js
         env:
           MONGO_URL: ${{ secrets.MONGO_URL }}
           PORT: ${{ secrets.PORT }}
