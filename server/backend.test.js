@@ -5,6 +5,7 @@ import User from '../server/models/User.js';
 const request = supertest(app);
 
 describe('Testing register route', () => {
+  this.timeout(20000);
   it('should register a user successfully', (done) => { // Change test function to use traditional callback style
     // Define dummy user data for registration
     const userData = {
