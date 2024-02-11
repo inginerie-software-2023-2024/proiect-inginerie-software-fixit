@@ -37,7 +37,7 @@ jobs:
 
       - name: Create and inject values into .env file
         run: |
-          echo "MONGO_URL=${{ secrets.MONGO_URL }}" >> .env
+          echo "MONGO_URL=${{ secrets.MONGODB_URL }}" >> .env
           echo "PORT=${{ secrets.PORT }}" >> .env
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
           echo "API_KEY=${{ secrets.API_KEY }}" >> .env
