@@ -142,6 +142,7 @@ app.post("/tips/:userQuestion", async (req, res) => {
   res.json(completion.choices[0].message.content);
 })
 
+export { app };
 
 
 // app.post(
