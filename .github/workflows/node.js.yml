@@ -47,3 +47,5 @@ jobs:
           cd server
           npm install --ignore-scripts
           npx mocha backend.test.js
+          env:
+            MONGO_URL: ${{ secrets.MONGO_URL }}
