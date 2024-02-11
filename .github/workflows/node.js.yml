@@ -42,6 +42,10 @@ jobs:
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
           echo "API_KEY=${{ secrets.API_KEY }}" >> .env
 
+      - name: Print MONGO_URL
+        run: |
+          echo "MONGO_URL: $MONGO_URL"
+
       - name: Install bcrypt module
         run: |
           cd server
