@@ -35,13 +35,14 @@ jobs:
         with:
           node-version: '14'
 
-      - name: Install dependencies and run tests
+      - name: Install bcrypt module
         run: |
           cd server
+          npm install node-gyp -g
+          npm install bcrypt -g
+          npm install bcrypt --save
+
+      - name: Install remaining dependencies and run tests
+        run: |
           npm install --ignore-scripts
           npx mocha backend.test.js
-
-      - name: Fix bcrypt installation
-        run: |
-          cd node_modules/bcrypt
-          node-pre-gyp install --fallback-to-build
