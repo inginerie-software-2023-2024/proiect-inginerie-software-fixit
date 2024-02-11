@@ -43,11 +43,8 @@ jobs:
       with:
         node-version: '14'
 
-    - name: Change directory to server
-      run: cd server
-
-    - name: Install server dependencies
-      run: npm install
-
-    - name: Run server tests
-      run: npx mocha backend.test.js
+    - name: Install dependencies and run tests
+      run: |
+        cd server
+        npm install --ignore-scripts
+        npx mocha backend.test.js
