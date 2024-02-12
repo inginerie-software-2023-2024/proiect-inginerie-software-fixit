@@ -9,8 +9,8 @@ import FriendListWidgetProfile from "scenes/widgets/friendListWidgets/FriendList
 import PostsWidget from "scenes/widgets/postWidgets/PostsWidget";
 import UserWidget from "scenes/widgets/UserWidget";
 import TipsWidget from "scenes/widgets/tipWidgets/TipsWidget";
-import AppointmentsWidget from "scenes/widgets/AppointmentsWidget";
-import AppointmentsWidgetMaster from "scenes/widgets/AppointmentsWidgetMaster";
+import AppointmentsWidget from "scenes/widgets/appointmentWidgets/AppointmentsWidget";
+import AppointmentsWidgetMaster from "scenes/widgets/appointmentWidgets/AppointmentsWidgetMaster";
 
 
 const ProfilePage = () => {

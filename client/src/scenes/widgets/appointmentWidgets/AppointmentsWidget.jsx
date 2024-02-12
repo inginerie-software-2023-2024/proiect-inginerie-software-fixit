@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setAppointments } from "state";
 import { useNavigate } from "react-router-dom";
-import AppointmentWidgetMaster from "./AppointmentWidgetMaster";
+import AppointmentWidget from "./AppointmentWidget";
 
 const AppointmentsWidget = ({ userId }) => {
   // Redux dispatch to update the friends list in the store
@@ -45,18 +45,18 @@ const AppointmentsWidget = ({ userId }) => {
     return dateB - dateA;
   };
 
-  // Function to fetch the friends list from the server
+  // Function to fetch the appointments from the server
   const getAppointments = async () => {
     console.log(userId);
     const response = await fetch(
-      `http://localhost:3001/users/${userId}/appointmentsmaster`,
+      `http://localhost:3001/users/${userId}/appointments`,
       {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
       }
     );
     const data = await response.json();
-   
+    console.log(data);
     // Update the friends list in the Redux store
     setAppointmentsState(data);
     dispatch(setAppointments({ appointments: data }));
@@ -65,8 +65,8 @@ const AppointmentsWidget = ({ userId }) => {
   useEffect(() => {
     // Fetch the friends list when the component mounts
     getAppointments();
-    console.log(appointments);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
 
   return (
     <WidgetWrapper>
@@ -81,11 +81,11 @@ const AppointmentsWidget = ({ userId }) => {
       </Typography>
 
       {/* Render the filtered appointments */}
-      <Box display="flex" flexDirection="column" mb="0.5rem">
+      <Box display="flex" flexDirection="column" mb="0.1rem">
         {filteredAppointments.
         sort(sortAppointmentsByDate).
-        slice(0, showMore ? filteredAppointments.length : 2).map((appointment) => (
-          <AppointmentWidgetMaster
+        slice(0, showMore ? filteredAppointments.length : 1).map((appointment) => (
+          <AppointmentWidget
             key={appointment._id}
             userId={appointment.userId}
             appointmentId={appointment._id}
@@ -101,10 +101,10 @@ const AppointmentsWidget = ({ userId }) => {
       </Box>
 
       {/* Render the "Show More" button if there are more than 3 friends */}
-      {filteredAppointments.length > 2 && (
+      {filteredAppointments.length > 1 && (
         <Box mt="0.5rem" display="flex" justifyContent="center">
           <Button
-            onClick={() => navigate(`/showMoreAppointmentsMaster/${userId}`)}
+            onClick={() => navigate(`/showMoreAppointments/${userId}`)}
             sx={{
               m: "0.5rem 0",
               p: "0.5rem",

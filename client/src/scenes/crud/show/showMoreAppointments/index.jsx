@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import React from 'react';
 import { setAppointments } from "state";
 import { CheckCircle, HourglassEmpty, Cancel } from "@mui/icons-material";
-import AppointmentWidget from "scenes/widgets/AppointmentWidget";
+import AppointmentWidget from "scenes/widgets/appointmentWidgets/AppointmentWidget";
 
 const ShowMoreAppointments = () => {
   const [user, setUser] = useState(null);

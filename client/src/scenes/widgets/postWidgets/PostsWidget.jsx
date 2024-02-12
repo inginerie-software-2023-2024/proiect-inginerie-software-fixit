@@ -93,6 +93,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
       getPosts();
     }
   }, [isProfile, userId]); // Include isProfile and userId as dependencies
+
   const sortPostsByFriendReviews = async (filteredPosts, loggedInUserId) => {
     const promises = filteredPosts.map(async (post) => {
       console.log("aici2");
@@ -127,7 +128,6 @@ const PostsWidget = ({ userId, isProfile = false }) => {
   };
   
   useEffect(() => {
-    
     let filteredPosts = allPosts;
 
     if (searchQuery) {
@@ -141,6 +141,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
     if (category) {
       filteredPosts = filteredPosts.filter((post) => post.category === category);
     } 
+
     if(filter)
     {
       const sortPostsByAverage = async (filteredPosts) => {
@@ -164,6 +165,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
         setPostsState(sortedPosts);
       });
   }
+  
   if (sortMode) {
     console.log("true");
     sortPostsByFriendReviews(filteredPosts, loggedInUserId).then((sortedPosts) => {

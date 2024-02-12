@@ -27,7 +27,6 @@ const postSchema = mongoose.Schema(
       type: Map,
       of: Boolean,
     },
-    
   },
   { timestamps: true }
 );

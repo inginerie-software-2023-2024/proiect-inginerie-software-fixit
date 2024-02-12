@@ -8,6 +8,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import ClassIcon from "@mui/icons-material/Class";
 import ReviewsIcon from '@mui/icons-material/Reviews';
 import { PersonAddOutlined, PersonRemoveOutlined } from "@mui/icons-material";
+import { BookmarkBorderOutlined, BookmarkOutlined } from "@mui/icons-material";
 import { setFriends } from "state";
 import {
   Box,
@@ -58,6 +59,8 @@ const PostWidget = ({
   const [noReviews, setNoReviews] = useState(0);
   const [reviews, setReviewsState] = useState([]);
 
+  const [isSaved, setIsSaved] = useState(false);
+
   // Utility hooks
   const { palette } = useTheme();
   const main = palette.neutral.main;
@@ -68,6 +71,7 @@ const PostWidget = ({
 
   const location2 = useLocation();
   const isHomePage = location2.pathname === "/home";
+  const isSavedPage = location2.pathname === "/saved";
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
 
   // Check if the current user is the owner of the post
@@ -86,7 +90,6 @@ const PostWidget = ({
   const isFriend = friends.find((friend) => friend._id === postUserId);
   const hasFriendReview = reviews.some((review) => friends.some((friend) => friend._id === review.userId));
 
-
   // Function to handle the like action on the post
   const patchLike = async () => {
     const response = await fetch(`http://localhost:3001/posts/${postId}/like`, {
@@ -100,7 +103,6 @@ const PostWidget = ({
     const updatedPost = await response.json();
     dispatch(setPost({ post: updatedPost }));
   };
-
 
   const getPostReviews = async () => {
     const response = await fetch(
@@ -178,8 +180,29 @@ const PostWidget = ({
       setReviewDescription("");
     }
   };
-  const handleSavePost = async () => {
 
+  const checkPostSaved = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:3001/saves/${loggedInUserId}/${postId}/check`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
+      if (response.ok) {
+        const isPostSaved = await response.json();
+        setIsSaved(isPostSaved);
+      }
+    } catch (error) {
+      console.error("Error checking if post is saved:", error);
+    }
+  };
+
+  const handleSavePost = async () => {
     const response = await fetch(
       `http://localhost:3001/saves/${loggedInUserId}/${postId}/create`,
       {
@@ -193,7 +216,7 @@ const PostWidget = ({
 
     if (response.ok) {
       console.log('se salveaza');
-      //functie de umplere culoare saves icon mara
+      checkPostSaved();
     }
   };
 
@@ -242,6 +265,7 @@ const PostWidget = ({
    useEffect(() => {
     // Fetch the post reviews when the component mounts
     getPostReviews();
+    checkPostSaved();
   }, []);
 
   return (
@@ -250,8 +274,6 @@ const PostWidget = ({
       ml={isNonMobileScreens ? "15px" : undefined}
       mr={isNonMobileScreens ? "15px" : undefined}
     >
-
-
         <Friend
             friendId={postUserId}
             name={name}
@@ -337,7 +359,6 @@ const PostWidget = ({
         </FlexBetween>
       </FlexBetween>
 
-
       {/* Display the post picture */}
       {picturePath && (
         <img
@@ -351,15 +372,20 @@ const PostWidget = ({
 
       <Divider sx={{ mt: "1rem", mb: "1rem" }} />
 
-     
-
       <FlexBetween mt="0.25rem">
         <FlexBetween gap="1rem" sx={{ width: "100%" }}>
           {/* Display the like button */}
           <FlexBetween gap="0.3rem">
-          <Button onClick={handleSavePost} variant="contained">
-            Save Post
-          </Button>
+            {/* <Button onClick={handleSavePost} variant="contained">
+              Save Post
+            </Button> */}
+            <IconButton onClick={handleSavePost} variant="contained">
+              {isSaved ? (
+                <BookmarkOutlined sx={{ color: primaryDark }} />
+              ) : (
+                <BookmarkBorderOutlined sx={{ color: primaryDark }} />
+              )}
+            </IconButton>
             {/* <IconButton onClick={patchLike}>
               {isLiked ? (
                 <FavoriteOutlined sx={{ color: primary }} />
@@ -373,12 +399,13 @@ const PostWidget = ({
           <FlexBetween gap="0.3rem">
             {/* Display the review button */}
             {user.isClient === true && (
-              <IconButton 
+              <IconButton
                 onClick={handleReviewDialogOpen}
                 disabled={reviews.some(review => review.userId === loggedInUserId)}
+                sx={{ color: main }}
               >
                 <ChatBubbleOutlineOutlined />
-                <Typography sx={{ ml:"0.2rem "}}>
+                <Typography sx={{ ml:"0.2rem"}}>
                   Add Review
                 </Typography>
               </IconButton>
@@ -420,9 +447,6 @@ const PostWidget = ({
             </IconButton>
           )}
           </FlexBetween>
-
-          
-      
         </FlexBetween>
 
         
@@ -431,7 +455,7 @@ const PostWidget = ({
       <Divider sx={{ mt: "1rem", mb: "1rem" }} />
 
       {/* Show the button only on the home page */}
-      {isHomePage && (
+      {(isHomePage || isSavedPage) && (
         <Box
           marginTop="20px"
           marginBottom="10px"

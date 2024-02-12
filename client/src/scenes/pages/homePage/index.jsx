@@ -62,7 +62,7 @@ const HomePage = () => {
     <Box>
       {/* Rendering the navbar component */}
       <Navbar />
-      <Box sx={{ marginLeft: 97, marginTop:3  }}>
+      <Box sx={{ textAlign:"center", marginTop:"2rem"  }}>
         <Button onClick={handleStartTutorial} variant="contained" color="primary">
           Start Tutorial
         </Button>
@@ -73,13 +73,13 @@ const HomePage = () => {
         display={isNonMobileScreens ? "flex" : "block"}
         gap="0.5rem"
         justifyContent="space-between"
-        
-    
       >
         {/* UserWidget component displays user information */}
-        <Box flexBasis={isNonMobileScreens ? "26%" : undefined}
-        className="user-widget" sx={{  height:120  }}
-      >
+        <Box 
+          flexBasis={isNonMobileScreens ? "26%" : undefined}
+          className="user-widget" sx={{  height:120  }}
+          mb={isNonMobileScreens ? undefined : "5rem"}
+        >
           <UserWidget userId={_id} picturePath={picturePath}
           className="user-widget2" />
         </Box>
@@ -87,9 +87,7 @@ const HomePage = () => {
         {/* Container for the search bar, categories, and posts */}
         <Box
           maxWidth={isNonMobileScreens ? "45%" : undefined}
-          mt={isNonMobileScreens ? undefined : "2rem"}
-         
-
+          mt={isNonMobileScreens ? undefined : "8rem"}
         >
         <Box   className="searchbar-widget" sx={{  height:70  }}>
           {/* SearchBarPosts component allows users to search for posts */}
