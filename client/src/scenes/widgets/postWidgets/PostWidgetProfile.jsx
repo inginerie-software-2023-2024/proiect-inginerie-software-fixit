@@ -7,6 +7,7 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import ClassIcon from "@mui/icons-material/Class";
 import ReviewsIcon from '@mui/icons-material/Reviews';
+import { BookmarkBorderOutlined, BookmarkOutlined } from "@mui/icons-material";
 import {
   Box,
   Divider,
@@ -63,6 +64,7 @@ const PostWidgetProfile = ({
   const medium = palette.neutral.medium;
   const main = palette.neutral.main;
   const primary = palette.primary.main;
+  const primaryDark = palette.primary.dark;
   const location2 = useLocation();
 
   // Check if the current user is the owner of the post
@@ -75,6 +77,8 @@ const PostWidgetProfile = ({
 
   const [reviewAverage, setReviewAverage] = useState(0);
   const [noReviews, setNoReviews] = useState(0);
+
+  const [isSaved, setIsSaved] = useState(false);
 
   // Function to handle the like action on the post
   const patchLike = async () => {
@@ -155,6 +159,45 @@ const PostWidgetProfile = ({
     setDeleteConfirmationOpen(false);
   };
 
+  const checkPostSaved = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:3001/saves/${loggedInUserId}/${postId}/check`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
+      if (response.ok) {
+        const isPostSaved = await response.json();
+        setIsSaved(isPostSaved);
+      }
+    } catch (error) {
+      console.error("Error checking if post is saved:", error);
+    }
+  };
+
+  const handleSavePost = async () => {
+    const response = await fetch(
+      `http://localhost:3001/saves/${loggedInUserId}/${postId}/create`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (response.ok) {
+      console.log('se salveaza');
+      checkPostSaved();
+    }
+  };
+
   // Delete the post
   const deletePost = async () => {
     const response = await fetch(`http://localhost:3001/posts/${postId}`, {
@@ -194,9 +237,10 @@ const PostWidgetProfile = ({
     setReviewsState(data);
   };
 
-     useEffect(() => {
+  useEffect(() => {
     // Fetch the post reviews when the component mounts
     getPostReviews();
+    checkPostSaved();
   }, []);
 
   return (
@@ -222,8 +266,6 @@ const PostWidgetProfile = ({
                 </Typography>
               </FlexBetween>
 
-
-
       <FlexBetween gap="0.7rem">
         {
           noReviews ? <Box 
@@ -240,12 +282,8 @@ const PostWidgetProfile = ({
           </Typography>
           </Box> : null
         }
-          
-
         </FlexBetween>
       </FlexBetween>
-
-      
 
       {/* Display the post category */}
 
@@ -297,7 +335,14 @@ const PostWidgetProfile = ({
 
       {/* Display the like button */}
       <FlexBetween>
-        <IconButton
+        <IconButton onClick={handleSavePost} variant="contained">
+          {isSaved ? (
+            <BookmarkOutlined sx={{ color: primaryDark }} />
+          ) : (
+            <BookmarkBorderOutlined sx={{ color: primaryDark }} />
+          )}
+        </IconButton>
+        {/* <IconButton
           size="small"
           onClick={patchLike}
           sx={{ color: isLiked ? primary : medium }}
@@ -307,7 +352,7 @@ const PostWidgetProfile = ({
           ) : (
             <FavoriteBorderOutlined fontSize="small" />
           )}
-        </IconButton>
+        </IconButton> */}
         
         <>
           {user.isClient === true && (

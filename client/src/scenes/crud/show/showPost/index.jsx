@@ -9,6 +9,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import ClassIcon from "@mui/icons-material/Class";
 import DateSelector from "./DateSelector"; 
 import EventIcon from "@mui/icons-material/Event";
+import { BookmarkBorderOutlined, BookmarkOutlined } from "@mui/icons-material";
 import {
   Box,
   useMediaQuery,
@@ -63,6 +64,7 @@ const ShowPost = () => {
   const main = palette.neutral.main;
   const medium = palette.neutral.medium;
   const primary = palette.primary.main;
+  const primaryDark = palette.primary.dark;
 
   const location = useLocation();
 
@@ -72,6 +74,8 @@ const ShowPost = () => {
   const allReviews = useSelector((state) => state.reviews);
   const [reviews, setReviewsState] = useState(allReviews);
   const hasReviews = reviews.length > 0;
+
+  const [isSaved, setIsSaved] = useState(false);
 
 // State variable for date selection
 const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
@@ -171,6 +175,45 @@ const [noReviews, setNoReviews] = useState(0);
     }
   };
 
+  const checkPostSaved = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:3001/saves/${loggedInUserId}/${postId}/check`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
+      if (response.ok) {
+        const isPostSaved = await response.json();
+        setIsSaved(isPostSaved);
+      }
+    } catch (error) {
+      console.error("Error checking if post is saved:", error);
+    }
+  };
+
+  const handleSavePost = async () => {
+    const response = await fetch(
+      `http://localhost:3001/saves/${loggedInUserId}/${postId}/create`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (response.ok) {
+      console.log('se salveaza');
+      checkPostSaved();
+    }
+  };
+
   const getPostReviews = async () => {
     const response = await fetch(
       `http://localhost:3001/reviews/${postId}/postReviews`,
@@ -207,6 +250,7 @@ const [noReviews, setNoReviews] = useState(0);
   useEffect(() => {
     console.log("HEEEEEEEEEEEEEEY");
     getPostReviews();
+    checkPostSaved();
     // Fetch the post reviews when the component mounts
   }, []);
 
@@ -353,15 +397,22 @@ const [noReviews, setNoReviews] = useState(0);
               <FlexBetween gap="1rem">
                 <FlexBetween gap="0.3rem">
                   {/* The like button */}
-                  <IconButton onClick={patchLike} sx={{ color: main }}>
+                  <IconButton onClick={handleSavePost} variant="contained">
+                    {isSaved ? (
+                      <BookmarkOutlined sx={{ color: primaryDark }} />
+                    ) : (
+                      <BookmarkBorderOutlined sx={{ color: primaryDark }} />
+                    )}
+                  </IconButton>
+                  {/* <IconButton onClick={patchLike} sx={{ color: main }}>
                     {isLiked ? (
                       <FavoriteOutlined sx={{ color: main }} />
                     ) : (
                       <FavoriteBorderOutlined />
                     )}
-                  </IconButton>
+                  </IconButton> */}
                   {/* Displaying the like count */}
-                  <Typography>{likeCount}</Typography>
+                  {/* <Typography>{likeCount}</Typography> */}
                 </FlexBetween>
   
                 {/* Add review option available for client users */}

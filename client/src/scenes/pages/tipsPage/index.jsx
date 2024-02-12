@@ -93,11 +93,11 @@ const TipsPage = () => {
 
           <Box>
             <WidgetWrapper
-              mt="2rem"
+              mt="3rem"
             >
-              <h3>FixIT Assistant</h3>
+              <h4 style={{textAlign: "center"}}>FixIT Assistant</h4>
               <form>
-                <label className="form-label" htmlFor='txtQuestion'>Please enter your question:</label>
+                <label className="form-label" htmlFor='txtQuestion' style={{marginTop: "1rem"}}>Please enter your question:</label>
                 <input className="form-control" type="text" id='txtQuestion' name='txtQuestion' onChange={(evt) => setQuestion(evt.target.value)} />
                 <Button 
                   onClick={(evt) => handleSubmit(evt)}
@@ -105,9 +105,10 @@ const TipsPage = () => {
                     color: palette.background.alt,
                     backgroundColor: palette.primary.main,
                     borderRadius: "0.7rem",
-                    fontSize: 15,
+                    fontSize: 13,
                     width: "100%",
-                    mt:2
+                    mt:"1.5rem",
+                    mb:"1rem"
                   }}>
                     Ask AI
                   </Button>

@@ -1,5 +1,6 @@
 import express from "express";
 import {
+    checkPostSaved,
     createSave,
     deleteSave,
     getAllSavesUser,
@@ -12,6 +13,7 @@ const router = express.Router();
 router.post("/:userId/:postId/create", verifyToken, createSave);
 // GET
 router.get("/:userId/Save", verifyToken, getAllSavesUser);
+router.get("/:userId/:postId/check", verifyToken, checkPostSaved);
 
 /* DELETE */
 router.delete("/:saveId", verifyToken, deleteSave);
