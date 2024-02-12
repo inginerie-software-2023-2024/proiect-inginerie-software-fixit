@@ -19,6 +19,7 @@ import {
   Menu,
   Close,
 } from "@mui/icons-material";
+import BookmarkIcon from '@mui/icons-material/Bookmark'; 
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import ReviewsIcon from '@mui/icons-material/Reviews';
 import { useDispatch, useSelector } from "react-redux";
@@ -95,7 +96,11 @@ const Navbar = () => {
             />
           )}
 
-          
+          <IconButton
+          onClick={() => navigate("/saved")}
+          >
+            <BookmarkIcon sx={{ fontSize: "25px" }} />
+          </IconButton>
           <IconButton
           onClick={() => navigate("/tips")}
           >

@@ -16,6 +16,7 @@ import { themeSettings } from "./theme";
 import EditPost from "scenes/crud/edit/editPost";
 import CreateTipPage from "scenes/crud/create/createTipPage";
 import TipsPage from "scenes/pages/tipsPage";
+import SavedPage from "scenes/pages/savedPage";
 import EditTip from "scenes/crud/edit/editTip";
 
 function App() {
@@ -77,6 +78,10 @@ function App() {
             <Route
               path="/tips"
               element={isAuth ? <TipsPage /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/saved"
+              element={isAuth ? <SavedPage /> : <Navigate to="/" />}
             />
           </Routes>
         </ThemeProvider>
