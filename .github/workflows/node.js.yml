@@ -57,7 +57,7 @@ jobs:
         run: |
           cd server
           npm install --ignore-scripts
-          npx mocha --timeout 20000  backend.test.js
+          npx mocha --timeout 20000  backend.test.js --exit
         env:
           MONGO_URL: ${{ secrets.MONGO_URL }}
           PORT: ${{ secrets.PORT }}
