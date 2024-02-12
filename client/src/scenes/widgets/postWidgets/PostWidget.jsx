@@ -76,8 +76,8 @@ const PostWidget = ({
   const isProfileUser = postUserId === loggedInUserId;
 
   // Check if the current user has liked the post
-  const isLiked = Boolean(likes[loggedInUserId]);
-  const likeCount = Object.keys(likes).length;
+  //const isLiked = Boolean(likes[loggedInUserId]);
+  //const likeCount = Object.keys(likes).length;
 
   // Get the current user's friends list
   const friends = useSelector((state) => state.user.friends);
@@ -86,7 +86,6 @@ const PostWidget = ({
   const isFriend = friends.find((friend) => friend._id === postUserId);
   const hasFriendReview = reviews.some((review) => friends.some((friend) => friend._id === review.userId));
 
- 
 
   // Function to handle the like action on the post
   const patchLike = async () => {
@@ -177,6 +176,24 @@ const PostWidget = ({
       setIsReviewDialogOpen(false);
       setReviewRating(0);
       setReviewDescription("");
+    }
+  };
+  const handleSavePost = async () => {
+
+    const response = await fetch(
+      `http://localhost:3001/saves/${loggedInUserId}/${postId}/create`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (response.ok) {
+      console.log('se salveaza');
+      //functie de umplere culoare saves icon mara
     }
   };
 
@@ -340,14 +357,17 @@ const PostWidget = ({
         <FlexBetween gap="1rem" sx={{ width: "100%" }}>
           {/* Display the like button */}
           <FlexBetween gap="0.3rem">
-            <IconButton onClick={patchLike}>
+          <Button onClick={handleSavePost} variant="contained">
+            Save Post
+          </Button>
+            {/* <IconButton onClick={patchLike}>
               {isLiked ? (
                 <FavoriteOutlined sx={{ color: primary }} />
               ) : (
                 <FavoriteBorderOutlined />
               )}
-            </IconButton>
-            <Typography>{likeCount}</Typography>
+            </IconButton> */}
+            {/* <Typography>{likeCount}</Typography> */}
           </FlexBetween>
 
           <FlexBetween gap="0.3rem">
@@ -484,6 +504,7 @@ const PostWidget = ({
           <Button onClick={handleAddReview} variant="contained">
             Add Review
           </Button>
+          
         </DialogActions>
       </Dialog>
     </WidgetWrapper>
