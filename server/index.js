@@ -14,6 +14,7 @@ import postRoutes from "./routes/posts.js";
 import reviewRoutes from "./routes/reviews.js";
 import tipRoutes from "./routes/tips.js";
 import appointmentRoutes from "./routes/appointments.js";
+import savesRoutes from "./routes/saves.js";
 import OpenAI from "openai"
 
 
@@ -102,7 +103,7 @@ app.use("/posts", postRoutes);
 app.use("/reviews", reviewRoutes);
 app.use("/tips", tipRoutes);
 app.use("/appointments", appointmentRoutes);
-
+app.use("/saves", savesRoutes);
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 6001;
 mongoose
