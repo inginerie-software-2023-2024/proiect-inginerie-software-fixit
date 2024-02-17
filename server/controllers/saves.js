@@ -11,25 +11,22 @@ export const createSave = async (req, res) => {
     if (existingSave) {
       await Save.findByIdAndRemove(existingSave._id);
       res.status(201).json({ message: "Post unsaved successfully" });
-      console.log('desalvata');
-    }
-    else
-    {
+      console.log("desalvata");
+    } else {
       const user = await User.findById(userId);
       const post = await Post.findById(postId);
-      
+
       const newSave = new Save({
         userId: user._id,
         postId: post._id,
       });
-     
+
       await newSave.save();
       res.status(201).json({ message: "Post saved successfully" });
-      console.log('salvata');
+      console.log("salvata");
     }
-    
   } catch (err) {
-    // Handle any errors that occur during post saving 
+    // Handle any errors that occur during post saving
     res.status(409).json({ message: err.message });
   }
 };
@@ -47,27 +44,26 @@ export const checkPostSaved = async (req, res) => {
 };
 
 export const getAllSavesUser = async (req, res) => {
-    try {
-      const { userId } = req.params;
-      const saves = await Save.find({ userId });
-  
-      // Map through the saves and retrieve the post data for each save
-      const posts = await Promise.all(
-        saves.map(async (save) => {
-          const post = await Post.findById(save.postId);
-          return post;
-        })
-      );
+  try {
+    const { userId } = req.params;
+    const saves = await Save.find({ userId });
 
-      // Respond with the list of posts
-      res.status(200).json(posts);
-    } catch (err) {
-      // Handle any errors that occur during retrieval of saved posts
-      res.status(404).json({ message: err.message });
-    }
-  };
+    // Map through the saves and retrieve the post data for each save
+    const posts = await Promise.all(
+      saves.map(async (save) => {
+        const post = await Post.findById(save.postId);
+        return post;
+      })
+    );
 
-  
+    // Respond with the list of posts
+    res.status(200).json(posts);
+  } catch (err) {
+    // Handle any errors that occur during retrieval of saved posts
+    res.status(404).json({ message: err.message });
+  }
+};
+
 /* DELETE */
 export const deleteSave = async (req, res) => {
   const { saveId } = req.params;
@@ -75,7 +71,6 @@ export const deleteSave = async (req, res) => {
   try {
     // Find the saved post with the provided save ID
     const save = await Save.findById(saveId);
-
 
     if (!save) {
       return res.status(409).json({ message: "Saved post not found" });
@@ -91,5 +86,22 @@ export const deleteSave = async (req, res) => {
     // Handle any errors that occur during review deletion
     console.error(error);
     res.status(500).json({ message: "Server error" });
+  }
+};
+
+/* GET */
+
+export const getSaves = async (req, res) => {
+  try {
+    // Extract the post ID from the request params
+    const { postId } = req.params;
+
+    // Retrieve all reviews associated with the post ID
+    const saves = await Save.find({ postId });
+
+    // Respond with the list of post reviews
+    res.status(200).json(saves);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
   }
 };

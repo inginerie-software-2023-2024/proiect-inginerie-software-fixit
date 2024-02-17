@@ -60,6 +60,7 @@ const PostWidget = ({
   const [reviews, setReviewsState] = useState([]);
 
   const [isSaved, setIsSaved] = useState(false);
+  const [noSaves, setNoSaves] = useState(0);
 
   // Utility hooks
   const { palette } = useTheme();
@@ -125,8 +126,19 @@ const PostWidget = ({
 
     setReviewAverage(average);
     setNoReviews(data.length);
+  };
 
-    console.log("medie: ", average);
+  const getSaves = async () => {
+    const response = await fetch(
+      `http://localhost:3001/saves/${postId}/savesNumber`,
+      {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    const data = await response.json();
+
+    setNoSaves(data.length);
   };
 
   const handleReviewDialogOpen = () => {
@@ -215,7 +227,6 @@ const PostWidget = ({
     );
 
     if (response.ok) {
-      console.log('se salveaza');
       checkPostSaved();
     }
   };
@@ -263,10 +274,12 @@ const PostWidget = ({
   };
 
    useEffect(() => {
+    getSaves();
     // Fetch the post reviews when the component mounts
     getPostReviews();
     checkPostSaved();
-  }, []);
+    
+  }, [isSaved]);
 
   return (
     <WidgetWrapper
@@ -312,6 +325,24 @@ const PostWidget = ({
           </Typography>
           </Box> : null
           }
+
+          {
+           postUserId == loggedInUserId && noSaves ?           
+            <Box 
+          bgcolor={primaryLight}
+          borderRadius = "5px"
+          sx={{height:"25px", width:"auto", paddingRight:"12px",paddingLeft:"12px", paddingTop:"2.5px"}}>
+            <Typography
+            color={main}
+            variant="h7"
+            fontWeight="bold"
+          sx={{ display: "flex", justifyContent: "flex-end", width: "100%", wordWrap: "break-word", alignItems: "center" }}
+          >
+        {noSaves} {noSaves > 1 ? "saves" : "save"}
+          </Typography>
+          </Box> : null
+          }
+
         </FlexBetween>
       </FlexBetween>
 
