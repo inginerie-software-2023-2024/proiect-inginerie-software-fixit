@@ -10,9 +10,17 @@
 
 
 We are going to present  our fullstack application called <b>FixIT</b>. This application makes the communication between clients and service providers a lot more fluently and efficiently. Through our platform,
-users can create an account and search for specific services that they need. Our special feature is that our application is more like a social-media platform, meaning that our customers
-can add friends. Why would we add that feature? Well, we've thought about it this way: first, when we want to hire someone that we do not know personally we ask a friend, if he/she knows somebody
-trustworthy. Now, with our application, you can see the reviews of the workers that have done projects for your friends, and see how your close ones reviewed them. This app was designed to be used by craftsmen who want their services to be easily found by potential clients, but also by those who need help from a specialist. We want to simplify the scheduling process for some services by adding an appointment form for each post.
+users can create an account and search for specific services that they need. 
+
+We have been inspired by multiple applications for this one, from the likes of <b>OLX</b>, <b>Stailer</b>, which is a platform regarding beauty appointments and <b>Task Rabbit</b>. Our special feature is that our application is more like a social-media platform, meaning that our customers
+can add friends and thus get their recommandations for specific services from them.  
+
+Why would we add that feature? Well, we've thought about it this way: first, when we want to hire someone that we do not know personally we ask a friend, if he/she knows somebody
+trustworthy. Now, with our application, you can see the reviews of the workers that have done projects for your friends, and see how your close ones reviewed them. 
+
+This app was designed to be used by craftsmen who want their services to be easily found by potential clients, but also by those who need help from a specialist. We want to simplify the scheduling process for some services by adding an appointment form for each post, this way everything is more efficient and in one place. A master is also able to see every appointment that they have and are able to either accept or deny the actual appointment, having a centralization of them all. 
+
+Another feature is feature of saved posts, being able to save your favorite posts from certain masters and this way being able to quicly find the services that you are interested in without having to manually search it in the Home Page or a separate Profile Page of a master.
 
 <br>
 
