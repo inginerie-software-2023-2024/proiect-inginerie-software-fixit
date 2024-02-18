@@ -136,14 +136,6 @@ Another feature is feature of saved posts, being able to save your favorite post
 
 <br>
 
-# Roadmap
-<div align="center">
-    <img src="https://github.com/maraneagu/FixIT-IS/assets/93272424/33073f6a-b95b-4e81-9a3c-3ca8177dc19d)" alt="image" width="500px">
-</div>
-
-<br>
-
-
 # Product Features & Functionalities
 
 ## Homepage 
