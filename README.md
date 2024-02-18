@@ -100,17 +100,27 @@ Another feature is feature of saved posts, being able to save your favorite post
 <br>
 
 # Diagrams  
-<div align="center">
-    <img src="https://github.com/maraneagu/FixIT-MERN/assets/101595151/798ddca3-ec6f-4452-be9c-1399ff0420a8" alt="image" width="600px">
-</div>
-
+<br>
 
 <div align="center">
-    <i> UML Diagram </i>
+    <img src="https://github.com/inginerie-software-2023-2024/proiect-inginerie-software-fixit/assets/101599986/bf85d975-d5c2-4434-9917-d5e277ce2452" alt="image" width="600px">
 </div>
 
-<br>
-<br>
+<div align="center">
+    <i> User Journey Diagram for Client</i>
+</div>
+
+<br><br>
+
+<div align="center">
+    <img src="https://github.com/inginerie-software-2023-2024/proiect-inginerie-software-fixit/assets/101599986/0e8b5b77-9317-4338-8292-30dff10f0d93" alt="image" width="600px">
+</div>
+
+<div align="center">
+    <i> User Journey Diagram for Master</i>
+</div>
+
+<br><br>
 
 <div align="center">
     <img src="https://github.com/inginerie-software-2023-2024/proiect-inginerie-software-fixit/assets/101595151/9d74d936-1ffc-4748-afa5-170a76889b9d" alt="image" width="600px">
@@ -121,7 +131,7 @@ Another feature is feature of saved posts, being able to save your favorite post
     <i> Use Case Diagram </i>
 </div>
 
-<br>
+<br><br>
 
 <div align="center">
     <img src="https://github.com/maraneagu/FixIT-MERN/assets/93272424/a3f81a1c-1d0b-40a8-a17c-a0e87ea8a8a6" alt="image" width="600px">
