@@ -47,6 +47,7 @@ Another feature is feature of saved posts, being able to save your favorite post
 - [Sprint 4 Report](https://github.com/inginerie-software-2023-2024/proiect-inginerie-software-fixit/blob/main/Sprint%204%20Report.pdf)
 - [Sprint 5 Report](https://github.com/inginerie-software-2023-2024/proiect-inginerie-software-fixit/blob/main/Sprint%205%20Report.pdf)
 - [Sprint Sesiune Report](https://github.com/inginerie-software-2023-2024/proiect-inginerie-software-fixit/blob/main/Sprint%20Report%20Restanta.pdf)
+- [Sprint Restanta Report](https://github.com/inginerie-software-2023-2024/proiect-inginerie-software-fixit/blob/main/Sprint%20Report%20Restanta.pdf)
 
 <br>
 
