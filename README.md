@@ -17,13 +17,15 @@ trustworthy. Now, with our application, you can see the reviews of the workers t
 <br>
 
 # Planned Features
-Vom adauga Feature-ul de 'Salvate', o pagina in care clientul poate vedea postarile pe care le-a salvat pentru a avea acces la ele mai rapid, fara a fi nevoit sa caute iarasi postarea in Home Page.
+- Adding the feature of the "Saved Posts", a new page in which both the client and the master are able to see their favorite posts and acces them quicker when wanting to make appointments; this way they don't have to manually search them in the Home Page of the respective master Profile Page.
+
 <br>
 
 # Planned  Functionalities
--CRUD pentru Salvari. 
-<br>
--Afisarea numarului de oameni care au salvat o anumita postare.
+- CRUD for the saved posts. 
+
+- The number of users that have saved the post, this only being shown to the actual master who created it in the first place.
+
 <br>
 
 # Software Architecture Report
@@ -57,8 +59,17 @@ Vom adauga Feature-ul de 'Salvate', o pagina in care clientul poate vedea postar
 <br>
 
 # User Persona
+
+## Master
 <div align="center">
     <img src="https://github.com/maraneagu/FixIT-MERN/assets/93272424/fd332bd6-76b5-40c0-af61-4a8c7390efa7" alt="image" width="600px">
+</div>
+
+<br>
+
+## Client
+<div align="center">
+    <img src="https://github.com/inginerie-software-2023-2024/proiect-inginerie-software-fixit/assets/93272424/fe66ebbb-7c38-4018-a1d4-42a4ef9392aa" alt="image" width="600px">
 </div>
 
 <br>
